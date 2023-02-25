@@ -10,6 +10,7 @@ public class AppStart {
             Window window = new Window();
             new Controller3D(window.getPanel());
             window.setVisible(true);
+            window.setResizable(false);
         });
         // https://www.google.com/search?q=SwingUtilities.invokeLater
         // https://www.javamex.com/tutorials/threads/invokelater.shtml

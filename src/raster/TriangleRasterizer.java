@@ -13,6 +13,8 @@ public class TriangleRasterizer {
 
         this.zBuffer = zBuffer;
     }
+    // COL TO awt COLOR
+
 
     public void rasterize(Point3D p1, Point3D p2, Point3D p3, Col color) {
         // Transformace do okna
@@ -21,11 +23,13 @@ public class TriangleRasterizer {
         Vec3D c = transformToWindow(p3);
 
         // Debug účely
+        /*
         Graphics graphics = zBuffer.getImageBuffer().getGraphics();
         graphics.setColor(new Color(0x2FFF00));
-        graphics.drawLine((int) a.x, (int) a.y, (int) b.x, (int) b.y);
-        graphics.drawLine((int) b.x, (int) b.y, (int) c.x, (int) c.y);
-        graphics.drawLine((int) c.x, (int) c.y, (int) a.x, (int) a.y);
+
+       graphics.drawLine((int) a.x, (int) a.y, (int) b.x, (int) b.y);
+       graphics.drawLine((int) b.x, (int) b.y, (int) c.x, (int) c.y);
+        graphics.drawLine((int) c.x, (int) c.y, (int) a.x, (int) a.y);*/
 
         if (p1.y >= p2.y) {
             if (p1.y >= p3.y) {
@@ -81,13 +85,12 @@ public class TriangleRasterizer {
             double z = a.z + (b.z - a.z) * t1 + (c.z - a.z) * t2;
 
 
-
-
             // vykreslit pixely mezi x1 a x2
             // TODO: pozor, x1 < x2
             for (int x = x1; x <= x2; x++) {
-       //         zBuffer.drawWithZTest(x, y, 0.3,color);
+                //         zBuffer.drawWithZTest(x, y, 0.3,color);
                 zBuffer.drawWithZTest(x, y, z, color);
+                // TODO interpolace celého vertexu
             }
 
         }
@@ -102,9 +105,9 @@ public class TriangleRasterizer {
                 x2 = temp_x;
             }
 
-double z = a.z + (b.z - a.z) * t1 + (c.z - a.z) * t2;
+            double z = a.z + (b.z - a.z) * t1 + (c.z - a.z) * t2;
             for (int x = x1; x < x2; x++) {
-               // Tady tu hodnotu Z už nevidí
+                // Tady tu hodnotu Z už nevidí
                 zBuffer.drawWithZTest(x, y, z, color);
             }
         }
@@ -112,9 +115,6 @@ double z = a.z + (b.z - a.z) * t1 + (c.z - a.z) * t2;
     }
 
     private Vec3D transformToWindow(Point3D p) {
-        return p.ignoreW()
-                .mul(new Vec3D(1, -1, 1))
-                .add(new Vec3D(1, 1, 0))
-                .mul(new Vec3D((zBuffer.getWidth() - 1) / 2., (zBuffer.getHeight() - 1) / 2., 1));
+        return p.ignoreW().mul(new Vec3D(1, -1, 1)).add(new Vec3D(1, 1, 0)).mul(new Vec3D((zBuffer.getWidth() - 1) / 2., (zBuffer.getHeight() - 1) / 2., 1));
     }
 }
