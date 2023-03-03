@@ -22,6 +22,7 @@ public class DepthBuffer implements Raster<Double>{
 
     @Override
     public void clear() {
+        // Všude nastavit vlastnost clear value
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
                 buffer[i][j] = clearValue;
@@ -31,38 +32,34 @@ public class DepthBuffer implements Raster<Double>{
 
     @Override
     public void setClearValue(Double value) {
-
          this.clearValue = value;
     }
 
     @Override
     public int getWidth() {
-
         return width;
     }
     @Override
     public int getHeight() {
-
         return height;
     }
 
     @Override
     public Double getValue(int x, int y) {
-        //if(x < width && y < height) {
+        // Kontrola mimo buffer
+        if(isInside(x,y))
             return buffer[x][y];
-       // }
-       // return null;
+        else
+            return null;
     }
 
 
     @Override
     public void setEValue(int x, int y, Double value) {
-        if (x < 0 || x >= width || y < 0 || y >= height) {
-            return;
-        }
-
-
-        this.buffer[x][y] = (double) value;
+       if(isInside(x,y))
+       {
+           buffer[x][y] = value;
+       }
 
     }
 

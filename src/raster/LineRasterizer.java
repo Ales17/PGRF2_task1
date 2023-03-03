@@ -1,5 +1,6 @@
 package raster;
 
+import model.Vertex;
 import transforms.Col;
 import transforms.Point3D;
 import transforms.Vec3D;
@@ -11,33 +12,26 @@ public class LineRasterizer {
         this.zBuffer = zBuffer;
     }
 
-    public void rasterize(Point3D p1, Point3D p2, Col color) {
-        Vec3D a = transformToWindow(p1);
-        Vec3D b = transformToWindow(p2);
-
-
-
-
+    public void rasterize(Vertex v1, Vertex v2) {
+        Vec3D a = transformToWindow(v1.getPosition());
+        Vec3D b = transformToWindow(v2.getPosition());
         int x1 = (int) a.x;
         int y1 = (int) a.y;
         int x2 = (int) b.x;
         int y2 = (int) b.y;
-
         int dx = Math.abs(x2 - x1);
         int dy = Math.abs(y2 - y1);
         int sx = x1 < x2 ? 1 : -1;
         int sy = y1 < y2 ? 1 : -1;
         int err = dx - dy;
-
+        Col color = v1.getColor();
         // draw with z test
-
-
         while (true) {
             if (x1 == x2 && y1 == y2) break;
             int e2 = 2 * err;
             if (e2 > -dy) { err -= dy; x1 += sx; }
             if (e2 < dx) { err += dx; y1 += sy; }
-            zBuffer.drawWithZTest(x1, y1, p1.z, color);
+            zBuffer.drawWithZTest(x1, y1, v1.getPosition().z, color);
         }
     }
 

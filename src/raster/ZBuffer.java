@@ -24,7 +24,13 @@ public class ZBuffer {
         // Načetnou hodnotu porovnám s Z, které vstoupilo do metody (nové)
         // tak -> obravím a nastavím nové z v paměti hloubky
         // pokud, je nové < než staré
-        //obarvim pixer
+        //obarvim pixel
+
+
+
+
+
+
     }
     public int getWidth() {
         return imageBuffer.getWidth();

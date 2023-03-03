@@ -6,12 +6,14 @@ import model.Vertex;
 import raster.LineRasterizer;
 import raster.TriangleRasterizer;
 import transforms.Col;
+import utils.Lerp;
 
 import java.util.List;
 
 public class Renderer {
     private TriangleRasterizer triangleRasterizer;
     private LineRasterizer lineRasterizer;
+    private Lerp<Vertex> lerp;
 
     public Renderer(TriangleRasterizer triangleRasterizer, LineRasterizer lineRasterizer) {
         this.triangleRasterizer = triangleRasterizer;
@@ -32,7 +34,7 @@ public class Renderer {
                         linestart += 2;
                         Vertex a = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexA));
                         Vertex b = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexB));
-                        lineRasterizer.rasterize(a.getPosition(), b.getPosition(), new Col(0x0000ff));
+                        lineRasterizer.rasterize(a , b  );
                     }
                     break;
                 case TRIANGLE:
@@ -51,17 +53,46 @@ public class Renderer {
                         Vertex b = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexB));
                         Vertex c = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexC));
 
-                        // TODO: posílat vertex
-                        triangleRasterizer.rasterize(a.getPosition(), b.getPosition(), c.getPosition(), new Col(0xFF0000)); // Poslat do rasterizeru
+                        // Posílat vertex
+                        triangleRasterizer.rasterize(a , b , c ,
+                                new Col(0xFF0000)); // Poslat do rasterizeru
                     }
                     break;
             }
         }
     }
 
-    public void render(List<Solid> scene) {
-        for (Solid solid : scene) {
-            render(solid);
+    private void renderTriangle(Vertex a, Vertex b, Vertex c) {
+        // FAST CLIP - zahodime veci, ktere jsou mimo scenu SLIDE 99
+        // orezani dle z slide 103
+        // todo seradit vrchole dle z, kde Az je max
+        // vertex pomocny gettery pro vraceni primo Z
+
+        double zMin = 0;
+        if (a.getPosition().getZ() < zMin) {
+            return;
         }
+
+        if (b.getPosition().getZ() < zMin) {
+            double t1 = (zMin - a.getPosition().getZ()) / (b.getPosition().getZ() - a.getPosition().getZ());
+             Vertex vab = lerp.lerp(a, b, t1);
+
+            double t2 = (zMin - a.getPosition().getZ()) / (c.getPosition().getZ() - a.getPosition().getZ());
+        }
+
+        if (c.getPosition().getZ() < zMin) {//todo dodelat}
+
+
+            // slide 103
+        }
+
+
+
+        /*public void render (List < Solid > scene) {
+            for (Solid solid : scene) {
+                render(solid);
+            }
+        }*/
     }
+
 }

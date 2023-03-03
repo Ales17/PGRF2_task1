@@ -14,9 +14,12 @@ public interface Raster<E> {
 
     void setEValue(int x, int y, E value);
     default boolean isInside(int x, int y) {
-
-        //getWith()  getHeight() todo dodelat
-        return true;
+        // DONE kontrola vykresleni mimo
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

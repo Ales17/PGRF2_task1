@@ -200,4 +200,20 @@ public class Point3D {
 	public String toString(String format) {
 		return String.format(Locale.US, "("+format+","+format+","+format+","+format+")",x,y,z,w);
 	}
+
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public double getZ() {
+		return z;
+	}
+
+
+
 }
