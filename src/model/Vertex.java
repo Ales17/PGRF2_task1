@@ -101,6 +101,8 @@ public class Vertex implements Vectorizable<Vertex> {
         return position;
     }
 
+
+
     public void setPosition(Point3D position) {
         this.position = position;
     }

@@ -1,13 +1,10 @@
+
 package control;
 
-import model.Arrow;
-import model.Solid;
-import model.TestModel;
-import model.Vertex;
+import model.*;
 import raster.*;
 import render.Renderer;
-import transforms.Col;
-import transforms.Point3D;
+import transforms.*;
 import view.Panel;
 
 import java.awt.event.*;
@@ -20,6 +17,9 @@ public class Controller3D implements Controller {
     private final LineRasterizer lineRasterizer;
     private final Renderer renderer;
 
+
+    private Mat4 model = new Mat4Identity();
+    private Camera camera = new Camera();
     public Controller3D(Panel panel) {
         this.panel = panel;
         this.zBuffer = new ZBuffer(panel.getRaster());
@@ -28,6 +28,7 @@ public class Controller3D implements Controller {
         this.renderer = new Renderer(triangleRasterizer, lineRasterizer);
         initObjects(panel.getRaster());
         initListeners();
+        this.camera = new Camera();
         redraw();
     }
 
@@ -48,7 +49,8 @@ public class Controller3D implements Controller {
 
     private void redraw() {
         panel.clear();
-  /* DEBUG
+
+/* DEBUG
   Vertex l11 = new Vertex(1, 1, 0.4, new Col(0xff0000));
      Vertex l12 = new Vertex(-1, -.7, 0.4, new Col(0xff0000));
         lineRasterizer.rasterize( l11, l12 );
@@ -62,9 +64,23 @@ public class Controller3D implements Controller {
 
 
         Solid arrow = new Arrow();
+        Solid cube = new Cube();
 
-        renderer.render(arrow);
+
+        // vytvoření matice transformace
+
+        Mat4 viewMatrix = camera.getViewMatrix();
+
+
+
+
+        camera = new Camera();
+        //renderer.render(arrow);
+        renderer.render(cube);
         panel.repaint();
     }
 
 }
+
+
+

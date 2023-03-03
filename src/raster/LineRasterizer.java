@@ -24,7 +24,7 @@ public class LineRasterizer {
         int sx = x1 < x2 ? 1 : -1;
         int sy = y1 < y2 ? 1 : -1;
         int err = dx - dy;
-        Col color = v1.getColor();
+        Col color = new Col(0xff0000); // = v1.getColor();
         // draw with z test
         while (true) {
             if (x1 == x2 && y1 == y2) break;
@@ -34,6 +34,11 @@ public class LineRasterizer {
             zBuffer.drawWithZTest(x1, y1, v1.getPosition().z, color);
         }
     }
+
+
+
+
+
 
     private Vec3D transformToWindow(Point3D p) {
         return p.ignoreW()
