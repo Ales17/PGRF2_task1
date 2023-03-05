@@ -9,8 +9,8 @@ import transforms.*;
 import utils.Lerp;
 
 public class Renderer {
-    private TriangleRasterizer triangleRasterizer;
-    private LineRasterizer lineRasterizer;
+    private final TriangleRasterizer triangleRasterizer;
+    private final LineRasterizer lineRasterizer;
     private Lerp<Vertex> lerp;
     private Mat4 model = new Mat4Identity();
     private Mat4 projection = new Mat4Identity();
@@ -23,43 +23,53 @@ public class Renderer {
     }
 
     public void render(Solid solid) {
-
+        Mat4 trans = solid.getModelMatrix().mul(model.mul(projection));
 
         // Projít part buffer
         for (Part part : solid.getPartBuffer()) {
+            int start ; //// Zjistíme začátek partu
+
+
             switch (part.getType()) {
 
-
+                //// Usecka
                 case LINE:
-                    int linestart = part.getStartIndex();
+                    start = part.getStartIndex();
                     for (int i = 0; i < part.getCount(); i++) {
-                        int indexA = linestart;
-                        int indexB = linestart + 1;
-                        linestart += 2;
+                        int indexA = start;
+                        int indexB = start + 1;
+
                         Vertex a = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexA));
                         Vertex b = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexB));
-
+                        a = a.mul(trans);
+                        b = b.mul(trans);
 
                         lineRasterizer.rasterize(a, b);
+                        start += 2;
                     }
                     break;
                 case TRIANGLE:
-                    int start = part.getStartIndex();
-                    // Zjistit zacatek
-                    //int start = part.getIndex();
+                    start = part.getStartIndex();////
+
                     for (int i = 0; i < part.getCount(); i++) {
-                        // Spocitat pozice v IB
+                        //// Spocitat pozice v IB
                         int indexA = start;
                         int indexB = start + 1;
                         int indexC = start + 2;
-                        start += 3;// Zvetsit index o 3
+                        start += 3;//// Zvetsit index o 3
                         // Z index bufferu zjistit indexy do vertex bufferu
                         // Vertex z VB na zaklade indexu z IB
                         Vertex a = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexA));
                         Vertex b = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexB));
                         Vertex c = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexC));
                         // triangleRasterizer.rasterize(a, b, c, new Col(0xFF0000)); // Poslat do rasterizeru
+                        a = a.mul(trans);
+                        b = b.mul(trans);
+                        c = c.mul(trans);
+
+
                         renderTriangle(a, b, c);
+
                     }
                     break;
             }
@@ -73,9 +83,6 @@ public class Renderer {
     public void setProjection(Mat4 projection) {
         this.projection = projection;
     }
-
-
-
 
 
     private void renderTriangle(Vertex a, Vertex b, Vertex c) {
@@ -95,9 +102,6 @@ public class Renderer {
          viditelnou část určíme a vykreslíme
 */
 
-
-
-
         // orezani dle z slide 103
         // - hledáme, kudy prochází rovina z=0
         // - nutno provést seřazení dle z, aby platilo v1.z >= v2.z >= v3.z
@@ -110,12 +114,10 @@ public class Renderer {
         }
 
         if (b.getPosition().getZ() < zMin) {
-            double t1 = (zMin - a.getPosition().getZ()) /
-                    (b.getPosition().getZ() - a.getPosition().getZ());
+            double t1 = (zMin - a.getPosition().getZ()) / (b.getPosition().getZ() - a.getPosition().getZ());
             Vertex vab = lerp.lerp(a, b, t1);
 
-            double t2 = (zMin - a.getPosition().getZ()) /
-                    (c.getPosition().getZ() - a.getPosition().getZ());
+            double t2 = (zMin - a.getPosition().getZ()) / (c.getPosition().getZ() - a.getPosition().getZ());
             Vertex vac = lerp.lerp(a, c, t2);
             renderTriangle(vab, b, c);
             renderTriangle(vab, c, vac);
@@ -132,7 +134,7 @@ public class Renderer {
             renderTriangle(vbc, vac, c);
             return;
         }
-         setProjection( new Mat4PerspRH(Math.PI / 4, 1, 1, 10));
+        setProjection(new Mat4PerspRH(Math.PI / 4, 1, 1, 10));
         setModel(new Mat4RotX(Math.PI / 4).mul(new Mat4RotY(Math.PI / 4)));
         // projekční matice
         a.getPosition().mul(projection);

@@ -15,10 +15,10 @@ public class LineRasterizer {
     public void rasterize(Vertex v1, Vertex v2) {
         Vec3D a = transformToWindow(v1.getPosition());
         Vec3D b = transformToWindow(v2.getPosition());
-        int x1 = (int) a.x;
-        int y1 = (int) a.y;
-        int x2 = (int) b.x;
-        int y2 = (int) b.y;
+        int x1 = (int) a.getX();
+        int y1 = (int) a.getY();
+        int x2 = (int) b.getX();
+        int y2 = (int) b.getY();
         int dx = Math.abs(x2 - x1);
         int dy = Math.abs(y2 - y1);
         int sx = x1 < x2 ? 1 : -1;
@@ -31,7 +31,7 @@ public class LineRasterizer {
             int e2 = 2 * err;
             if (e2 > -dy) { err -= dy; x1 += sx; }
             if (e2 < dx) { err += dx; y1 += sy; }
-            zBuffer.drawWithZTest(x1, y1, v1.getPosition().z, color);
+            zBuffer.drawWithZTest(x1, y1, v1.getPosition().getZ(), color);
         }
     }
 

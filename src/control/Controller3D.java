@@ -10,12 +10,12 @@ import view.Panel;
 import java.awt.event.*;
 
 public class Controller3D implements Controller {
-    private final Panel panel;
-
+    private final Panel panel; //// Panel aplikace
+    private int width, height; //// Velikost panelu
     private final ZBuffer zBuffer;
     private final TriangleRasterizer triangleRasterizer;
     private final LineRasterizer lineRasterizer;
-    private final Renderer renderer;
+    Renderer renderer;
 
 
     private Mat4 model = new Mat4Identity();

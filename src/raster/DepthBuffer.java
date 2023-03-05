@@ -13,11 +13,6 @@ public class DepthBuffer implements Raster<Double> {
         this.width = width;
         this.height = height;
 
-        /* for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                buffer[i][j] = clearValue;
-            }
-        }*/
         clear();
     }
 
@@ -30,7 +25,7 @@ public class DepthBuffer implements Raster<Double> {
             }
         }
     }
-
+    //// Gettery a settery
     @Override
     public void setClearValue(Double value) {
         this.clearValue = value;

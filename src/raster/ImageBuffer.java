@@ -24,12 +24,12 @@ public class ImageBuffer implements Raster<Col> {
         graphics.fillRect(0, 0, getWidth(), getHeight());
         graphics.drawImage(raster.img, 0, 0, null);
     }
-
+    //// Vrátí barvu
     @Override
     public Col getValue(int x, int y) {
         return new Col( img.getRGB(x, y));
     }
-
+    //// Nastaví barvu
     @Override
     public void setEValue(int x, int y, Col value) {
         img.setRGB(x, y, value.getRGB());

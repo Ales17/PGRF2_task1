@@ -74,39 +74,44 @@ public class Vertex implements Vectorizable<Vertex> {
 */
 package model;
 
-import transforms.Col;
-import transforms.Point3D;
-import transforms.Vec3D;
+import transforms.*;
 
 public class Vertex implements Vectorizable<Vertex> {
 
+    double one;
     private Point3D position; //// Pozice vrcholu
     private Col color; //// Barva vrcholu
-    private Vec3D textureCoordinates; //// Texturová souřadnice vrcholu
+    private Vec2D textureCoordinates; //// Texturová souřadnice vrcholu
     private Vec3D normalVector; //// Normálový vektor vrcholu
 
-    public Vertex(double x, double y, double z)
-    {
-        this(x, y, z, new Col(0, 0, 0));
-    }
-
+    //// Konstruktor vrcholu
     public Vertex(double x, double y, double z, Col color) {
-        this.position = new Point3D(x, y, z);
+        position = new Point3D(x, y, z, 1);
         this.color = color;
-        this.textureCoordinates = new Vec3D(0, 0, 0);
-        this.normalVector = new Vec3D(0, 0, 0);
+        textureCoordinates = new Vec2D(1, 1);
+        normalVector = new Vec3D(0, 0, 0);
+        one = 1;
     }
 
-    public Point3D getPosition() {
-        return position;
+    //// Konstruktor vrcholu s texturovou souřadnicí
+    public Vertex(Vertex vertex) {
+        position = vertex.position;
+        color = vertex.color;
+        textureCoordinates = vertex.textureCoordinates;
+        normalVector = vertex.normalVector;
+        one = vertex.one;
     }
 
 
-
-    public void setPosition(Point3D position) {
-        this.position = position;
+    public Vertex(Point3D point, Col color, Vec2D textureCoordinates, Vec3D normalVector, double one) {
+        this.position = point;
+        this.color = color;
+        this.textureCoordinates = textureCoordinates;
+        this.normalVector = normalVector;
+        this.one = one;
     }
 
+    //// Gettery a settery
     public Col getColor() {
         return color;
     }
@@ -115,11 +120,23 @@ public class Vertex implements Vectorizable<Vertex> {
         this.color = color;
     }
 
-    public Vec3D getTextureCoordinates() {
+    public Point3D getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vec3D v) {
+        this.position = new Point3D(v.getX(), v.getY(), v.getZ(), position.getW());
+    }
+
+    public double getOne() {
+        return one;
+    }
+
+    public Vec2D getTextureCoordinates() {
         return textureCoordinates;
     }
 
-    public void setTextureCoordinates(Vec3D textureCoordinates) {
+    public void setTextureCoordinates(Vec2D textureCoordinates) {
         this.textureCoordinates = textureCoordinates;
     }
 
@@ -135,25 +152,26 @@ public class Vertex implements Vectorizable<Vertex> {
         return vertex.getPosition().getZ();
     }
 
+
+    public Vertex mul(Mat4 transMat) {
+        return new Vertex(position.mul(transMat), color, textureCoordinates, normalVector, one);
+    }
+
+
     @Override
-    public Vertex mul(double k) {
+    public Vertex mul(double d) {
         return new Vertex(
-                position.getX() * k,
-                position.getY() * k,
-                position.getZ() * k,
-                color.mul(k)
+                position.mul(d),
+                color.mul(d),
+                textureCoordinates.mul(d),
+                normalVector.mul(d),
+                one * d
         );
     }
 
-    @Override
     public Vertex add(Vertex vertex) {
-        Point3D newPosition = position.add(vertex.getPosition());
-        Col newColor = color.add(vertex.getColor());
-        return new Vertex(newPosition.getX(), newPosition.getY(), newPosition.getZ(), newColor);
+        return new Vertex(position.add(vertex.position), color, textureCoordinates, normalVector, one * vertex.getOne());
     }
-
-
-
 
 
     public Vertex toWindow(int width, int height) {

@@ -2,16 +2,16 @@ package model;
 
 import transforms.Col;
 
-public class Arrow extends Solid{
+public class Arrow extends Solid {
 
     public Arrow() {
         // Vertex buffergetVertexBuffer().add(new Vertex(0, 0, 0));
 
         getVertexBuffer().add(new Vertex(0, 0, 0.1, new Col(0x0ff000)));
         getVertexBuffer().add(new Vertex(0.7, 0, 0.9, new Col(0x0ff000)));
-        getVertexBuffer().add(new Vertex(1, 0, 0));
-        getVertexBuffer().add(new Vertex(0.7, 0.3, 0));
-        getVertexBuffer().add(new Vertex(0.7, -0.3, 0));
+        getVertexBuffer().add(new Vertex(1.0, 0.0, 0.0, new Col(0x0ff000)));
+        getVertexBuffer().add(new Vertex(0.7, 0.3, 0.0, new Col(0x0ff000)));
+        getVertexBuffer().add(new Vertex(0.7, -0.3, 0.0, new Col(0x0ff000)));
         // Index buffer
         // LINE
         getIndexBuffer().add(0);
