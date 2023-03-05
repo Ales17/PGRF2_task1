@@ -88,6 +88,27 @@ public class Camera {
 	public void backward(double speed) {
 		forward((-1) * speed);
 	}
+	public Camera withPosition(Vec3D newPosition) {
+		Camera newCamera = new Camera();
+		newCamera.azimuth = this.azimuth;
+		newCamera.radius = this.radius;
+		newCamera.zenith = this.zenith;
+		newCamera.firstPerson = this.firstPerson;
+		newCamera.pos = newPosition;
+		newCamera.computeMatrix();
+		return newCamera;
+	}
+
+	public Camera withAzimuth(double newAzimuth) {
+		Camera newCamera = new Camera();
+		newCamera.azimuth = newAzimuth;
+		newCamera.radius = this.radius;
+		newCamera.zenith = this.zenith;
+		newCamera.firstPerson = this.firstPerson;
+		newCamera.pos = this.pos;
+		newCamera.computeMatrix();
+		return newCamera;
+	}
 
 	public void forward(double speed) {
 		pos = pos.add(new Vec3D(
@@ -158,4 +179,6 @@ public class Camera {
 	public double getZenith() {
 		return zenith;
 	}
+
+
 }

@@ -75,18 +75,18 @@ public class Vertex implements Vectorizable<Vertex> {
 package model;
 
 import transforms.Col;
-import transforms.Mat4;
 import transforms.Point3D;
 import transforms.Vec3D;
 
 public class Vertex implements Vectorizable<Vertex> {
 
-    private Point3D position;
-    private Col color;
-    private Vec3D textureCoordinates;
-    private Vec3D normalVector;
+    private Point3D position; //// Pozice vrcholu
+    private Col color; //// Barva vrcholu
+    private Vec3D textureCoordinates; //// Texturová souřadnice vrcholu
+    private Vec3D normalVector; //// Normálový vektor vrcholu
 
-    public Vertex(double x, double y, double z) {
+    public Vertex(double x, double y, double z)
+    {
         this(x, y, z, new Col(0, 0, 0));
     }
 
@@ -161,4 +161,6 @@ public class Vertex implements Vectorizable<Vertex> {
         double y = (-position.getY() + 1) * height / 2;
         return new Vertex(x, y, position.getZ(), color);
     }
+
+
 }

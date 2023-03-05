@@ -214,6 +214,8 @@ public class Point3D {
 		return z;
 	}
 
-
+public double getW() {
+		return w;
+}
 
 }
