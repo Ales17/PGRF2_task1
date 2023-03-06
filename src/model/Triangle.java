@@ -7,9 +7,9 @@ public class Triangle extends Solid {
         public Triangle() {
             // Vertex buffer
 
-            getVertexBuffer().add(new Vertex(0, 0, 0, new Col(0x00ff00)));
+            getVertexBuffer().add(new Vertex(0, 0, 0, new Col(0xff00aa)));
             getVertexBuffer().add(new Vertex(1, 0, 0, new Col(0x00ff00)));
-            getVertexBuffer().add(new Vertex(0, 1, 0, new Col(0x00ff00)));
+            getVertexBuffer().add(new Vertex(0, 1, 0, new Col(0xff0000)));
 
             // Index buffer
 

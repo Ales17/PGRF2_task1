@@ -5,56 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6decd0e-5519-4a6a-b57b-9422abb34d9d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/Pozadavky_PGRF2_Task1.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/c04_bacul_ales.iml" beforeDir="false" afterPath="$PROJECT_DIR$/c04_bacul_ales.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/AppStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/AppStart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/control/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/control/Controller3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/Controller3D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Arrow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Arrow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/TestModel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Vectorizable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Vectorizable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Vertex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Vertex.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raster/DepthBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/DepthBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raster/ImageBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/ImageBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raster/LineRasterizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/LineRasterizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raster/Raster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/Raster.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Triangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Triangle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raster/TriangleRasterizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/TriangleRasterizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raster/ZBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/ZBuffer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/render/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/Renderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Bikubika.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Camera.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Col.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Kubika.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat3.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat3Identity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat3Rot2D.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat3RotX.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat3RotY.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat3RotZ.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat3Scale2D.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat3Transl2D.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat4.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat4Identity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat4OrthoRH.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat4PerspRH.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat4RotX.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat4RotXYZ.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat4RotY.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat4RotZ.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat4Scale.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat4Transl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Mat4ViewRH.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Point2D.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Point3D.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Quat.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Vec1D.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Vec2D.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transforms/Vec3D.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,19 +27,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Ales\Desktop\c04_bacul_ales\src" />
@@ -119,10 +74,23 @@
       <option name="presentableId" value="Default" />
       <updated>1678045015314</updated>
       <workItem from="1678045016743" duration="2589000" />
+      <workItem from="1678047737065" duration="876000" />
+      <workItem from="1678086883079" duration="325000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

@@ -144,8 +144,11 @@ public class Renderer {
         a.getPosition().mul(model);
         b.getPosition().mul(model);
         c.getPosition().mul(model);
-
+        // get color
+        a.getColor();
+        b.getColor();
+        c.getColor();
         // rasterizace trojúhelníku
-        triangleRasterizer.rasterize(a, b, c, new Col(0xFF0000));
+        triangleRasterizer.rasterize(a, b, c);
     }
 }

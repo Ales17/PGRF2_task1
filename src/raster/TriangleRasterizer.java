@@ -26,7 +26,7 @@ public class TriangleRasterizer {
         height = zBuffer.getImageBuffer().getHeight();
     }
 
-    public void rasterize(Vertex v1, Vertex v2, Vertex v3, Col color) {
+    public void rasterize(Vertex v1, Vertex v2, Vertex v3 ) {
         Vec3D a, b, c;
 
         if (v1.getPosition().getY() >= v2.getPosition().getY()) {
@@ -78,7 +78,7 @@ public class TriangleRasterizer {
                 }
                 double t =  (x - x1) / (x2 - x1);
                 Vertex v = lerp.lerp(v1, v2, t);
-                zBuffer.drawWithZTest(x, y, z, color);
+                zBuffer.drawWithZTest(x, y, z,  v.getColor());
             }
         }
 
@@ -93,8 +93,9 @@ public class TriangleRasterizer {
                 x2 = temp_x;
             }
             double z = a.getZ() + (b.getZ() - a.getZ()) * t1 + (c.getZ() - a.getZ()) * t2;
+
             for (int x = x1; x < x2; x++) {
-                zBuffer.drawWithZTest(x, y, z, color);
+                zBuffer.drawWithZTest(x, y, z,    lerp.lerp(v1, v2, t1).getColor()  );
             }
         }
     }

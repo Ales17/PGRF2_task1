@@ -58,11 +58,7 @@ public class Controller3D implements Controller {
             }
         });
 
-
-
-
     }
-
     private void redraw() {
 
         panel.clear();
