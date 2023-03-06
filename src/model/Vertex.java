@@ -1,83 +1,10 @@
-/*
-package model;
-
-import transforms.Col;
-import transforms.Mat4;
-import transforms.Point3D;
-
-public class Vertex implements Vectorizable<Vertex> {
-    private Point3D position;
-    private Col color;
-
-    // TODO add texture coordinates
-    // TODO add normal vector
-    // TODO perspektivně korektní interpolace
-
-    public Vertex(double x, double y, double z) {
-        this.position = new Point3D(x, y, z);
-        this.color = new Col(0x0000ff);
-        // TODO správně nastavit barvu
-
-
-    }
-
-    // pomocna metoda
-    public double getZ(Vertex vertex) {
-        return vertex.getPosition().getZ();
-
-
-    }
-
-    public Point3D getPosition() {
-        return position;
-    }
-
-    public Col getColor() {
-        return color;
-    }
-
-    // TODO vytvořit interface
-    // TODO transform - vrátí nový Vertex- vstupuje matice
-
-    public Vertex transform(Mat4 matrix) {
-
-
-        return null;
-    }
-
-
-    // TODO dehomog
-    // TODO transform to window
-
-    @Override
-    public Vertex mul(double k) {
-        return null;
-        // TODO přinásobí skalár ke každému atributu vertexu
-
-
-    }
-
-    // TODO transform
-    @Override
-    public Vertex add(Vertex vertex) {
-
-        // TODO přičte jednotlivé atributy
-
-        return null;
-
-    }
-
-    // TODO transform vrátí nový vertex - vstupuje matice, dehomog, transform to window
-
-
-}
-*/
 package model;
 
 import transforms.*;
 
-public class Vertex implements Vectorizable<Vertex> {
+import java.util.Optional;
 
+public class Vertex implements Vectorizable<Vertex> {
     double one;
     private Point3D position; //// Pozice vrcholu
     private Col color; //// Barva vrcholu
@@ -87,9 +14,9 @@ public class Vertex implements Vectorizable<Vertex> {
     //// Konstruktor vrcholu
     public Vertex(double x, double y, double z, Col color) {
         position = new Point3D(x, y, z, 1);
-        this.color = color;
-        textureCoordinates = new Vec2D(1, 1);
         normalVector = new Vec3D(0, 0, 0);
+        textureCoordinates = new Vec2D(1, 1);
+        this.color = color;
         one = 1;
     }
 
@@ -97,41 +24,28 @@ public class Vertex implements Vectorizable<Vertex> {
     public Vertex(Vertex vertex) {
         position = vertex.position;
         color = vertex.color;
-        textureCoordinates = vertex.textureCoordinates;
         normalVector = vertex.normalVector;
-        one = vertex.one;
-    }
-
-
-    public Vertex(Point3D point, Col color, Vec2D textureCoordinates, Vec3D normalVector, double one) {
-        this.position = point;
-        this.color = color;
-        this.textureCoordinates = textureCoordinates;
-        this.normalVector = normalVector;
-        this.one = one;
-    }
-
-    //// Gettery a settery
+        textureCoordinates = vertex.textureCoordinates;
+        one = 1;
+    }    //// Gettery a settery
     public Col getColor() {
         return color;
     }
 
-    public void setColor(Col color) {
-        this.color = color;
+    public void setPosition(Vec3D v) {
+        position = new Point3D(v.getX(), v.getY(), v.getZ(), position.getW());
     }
-
     public Point3D getPosition() {
         return position;
-    }
-
-    public void setPosition(Vec3D v) {
-        this.position = new Point3D(v.getX(), v.getY(), v.getZ(), position.getW());
     }
 
     public double getOne() {
         return one;
     }
 
+    public Vec3D getNormalVector() {
+        return normalVector;
+    }
     public Vec2D getTextureCoordinates() {
         return textureCoordinates;
     }
@@ -140,9 +54,7 @@ public class Vertex implements Vectorizable<Vertex> {
         this.textureCoordinates = textureCoordinates;
     }
 
-    public Vec3D getNormalVector() {
-        return normalVector;
-    }
+
 
     public void setNormalVector(Vec3D normalVector) {
         this.normalVector = normalVector;
@@ -157,9 +69,24 @@ public class Vertex implements Vectorizable<Vertex> {
         return new Vertex(position.mul(transMat), color, textureCoordinates, normalVector, one);
     }
 
-
+    public Vertex(Point3D point, Col color, Vec2D textureCoordinates, Vec3D normalVector, double one) {
+        this.position = point;
+        this.color = color;
+        this.textureCoordinates = textureCoordinates;
+        this.normalVector = normalVector;
+        this.one = one;
+    }
+    public Vertex add(Vertex mul) {
+        return new Vertex(
+                position.add(mul.position),
+                color.add(mul.color),
+                textureCoordinates.add(mul.textureCoordinates),
+                normalVector.add(mul.normalVector),
+                one + mul.one
+        );
+    }
     @Override
-    public Vertex mul(double d) {
+    public Vertex mul(double d) { ////
         return new Vertex(
                 position.mul(d),
                 color.mul(d),
@@ -168,16 +95,16 @@ public class Vertex implements Vectorizable<Vertex> {
                 one * d
         );
     }
-
-    public Vertex add(Vertex vertex) {
-        return new Vertex(position.add(vertex.position), color, textureCoordinates, normalVector, one * vertex.getOne());
-    }
-
-
-    public Vertex toWindow(int width, int height) {
-        double x = (position.getX() + 1) * width / 2;
-        double y = (-position.getY() + 1) * height / 2;
-        return new Vertex(x, y, position.getZ(), color);
+    public Optional<Vertex> dehomog() {
+        if (position.getW() == 0.)
+            return Optional.empty();
+        return Optional.of( new Vertex(
+                new Point3D(position.getX() / position.getW(), position.getY() / position.getW(), position.getZ() / position.getW(), 1.0),
+                new Col(color.getR() / position.getW(), color.getG() / position.getW(), color.getB() / position.getW()),
+                new Vec2D(textureCoordinates.getX() / position.getW(), textureCoordinates.getY() / position.getW()),
+                new Vec3D(normalVector.getX() / position.getW(), normalVector.getY() / position.getW(), normalVector.getZ() / position.getW()),
+                one / position.getW()
+        ));
     }
 
 

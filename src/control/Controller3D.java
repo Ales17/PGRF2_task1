@@ -7,94 +7,84 @@ import render.Renderer;
 import transforms.*;
 import view.Panel;
 
+import java.awt.*;
 import java.awt.event.*;
+
+
 
 public class Controller3D implements Controller {
     private final Panel panel; //// Panel aplikace
+
+
     private int width, height; //// Velikost panelu
-    private final ZBuffer zBuffer;
-    private final TriangleRasterizer triangleRasterizer;
-    private final LineRasterizer lineRasterizer;
+    private Camera camera = new Camera()
+            .withPosition(new Vec3D(-0.36,-0.73,1.82))
+            .withAzimuth(-4.58)
+            .withZenith(-1.33)
+            .withFirstPerson(true);
+    private ZBuffer zBuffer;
+    private TriangleRasterizer triangleRasterizer;
+    private LineRasterizer lineRasterizer;
     Renderer renderer;
+    Mat4 projection = new Mat4Identity();
 
-
-    private Mat4 model = new Mat4Identity();
-    private Camera camera;
-    private double cameraSpeed = 0.1;
-    private int oldAz, oldZen;
-    private int x, y, z;
+    int modeCut=0;
+Cube cube = new Cube();
     public Controller3D(Panel panel) {
         this.panel = panel;
-        this.zBuffer = new ZBuffer(panel.getRaster());
-        this.triangleRasterizer = new TriangleRasterizer(zBuffer);
-        this.lineRasterizer = new LineRasterizer(zBuffer);
-        this.renderer = new Renderer(triangleRasterizer, lineRasterizer);
         initObjects(panel.getRaster());
-        initListeners();
-        this.camera = new Camera();
-
-        oldAz = 15;
-        oldZen = -20;
-        x = -8;
-        y = -2;
-        z = 3;
-
-        panel.requestFocus();
-        panel.requestFocusInWindow();
+        initListeners(panel);
         redraw();
     }
 
     public void initObjects(ImageBuffer raster) {
-        raster.setClearValue(new Col(0x101010));
+        raster.setClearValue(new Col(0xff0000));
+        zBuffer = new ZBuffer(panel.getRaster());
+        projection = new Mat4PerspRH(Math.PI / 3,
+                panel.getHeight()/ (float) panel.getWidth(),
+                0.1,
+                30);
+        triangleRasterizer = new TriangleRasterizer(zBuffer);
     }
 
     @Override
-    public void initListeners() {
-        panel.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                panel.resize();
-                initObjects(panel.getRaster());
-            }
-        });
+    public void initListeners(Panel panel) {
+
 
     }
     private void redraw() {
+        width = panel.getRaster().getWidth();
+        height = panel.getRaster().getHeight();
+        Graphics g = panel.getRaster().getGraphics();
 
-        panel.clear();
+        g.setColor(Color.white);
 
-// debug
-//  Vertex l11 = new Vertex(1, 1, 0.4, new Col(0xff0000));
-//     Vertex l12 = new Vertex(-1, -.7, 0.4, new Col(0xff0000));
-//        lineRasterizer.rasterize( l11, l12 );
-//
-//        Vertex t11 = new Vertex(-1, -1, 0.8); // Bottom left
-//        Vertex t12 = new Vertex(0, -1, 0.2); // Bottom right
-//        Vertex t13 = new Vertex(-1, 0, 0.9); // Top
-//        triangleRasterizer.rasterize(t11, t12, t13, new Col(0x00ff00));
-
-
-
-
-
-
-
-
-        Solid arrow = new Arrow();
-        Solid cube = new Cube();
-        Solid triangle = new Triangle();
-
-
-
-        Mat4 viewMatrix = camera.getViewMatrix();
-
-
-
-        renderer.render(cube);
-        renderer.render(triangle);
-
+        redraw3D();
         panel.repaint();
     }
+
+
+
+    private void redraw3D() {
+
+        triangleRasterizer.getzBuffer().getDepthBuffer().clear();//vyčistit si  buffer vždycky před každým kreslením
+
+        triangleRasterizer.setModeCut(modeCut);
+        renderer = new Renderer(triangleRasterizer);
+        renderer.setProjectionMatrix(projection);
+        renderer.setView(camera.getViewMatrix());
+
+       /* renderer.render(ar);
+        renderer.render(arrowZ);
+        renderer.render(arrowY);
+        renderer.render(axesX);
+        renderer.render(cube);
+        renderer.render(cube2);*/
+
+
+    }
+
+
 
 }
 
