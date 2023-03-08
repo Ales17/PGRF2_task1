@@ -2,30 +2,25 @@ package raster;
 
 public class DepthBuffer implements Raster<Double> {
 
-    private final double[][] buffer; //// Buffer
-    private final int width, height; //// Šířka a výška
+    private final double[][] depth;
+    private final int width, height;
+    private double clearValue = 1;
 
-    private double clearValue = 1; //// Výchozí hodnota
-
-    //// Konstruktor
     public DepthBuffer(int width, int height) {
-        buffer = new double[width][height];
+        depth = new double[width][height];
         this.width = width;
         this.height = height;
-
         clear();
+
     }
 
-    //// Všude nastavit vlastnost clear value
     @Override
     public void clear() {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                buffer[i][j] = clearValue;
-            }
-        }
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++)
+                depth[i][j] = clearValue;
     }
-    //// Gettery a settery
+
     @Override
     public void setClearValue(Double value) {
         this.clearValue = value;
@@ -42,20 +37,19 @@ public class DepthBuffer implements Raster<Double> {
     }
 
     @Override
-    public Double getValue(int x, int y) {
-        //// Kontrola mimo buffer
-        if (isInside(x, y)) return buffer[x][y];
-        ////return null;
+    public Double getElement(int x, int y) {
+        if (isInside(x, y))
+            return depth[x][y];
         return clearValue;
     }
 
-
-    @Override
-    public void setEValue(int x, int y, Double value) {
-        if (isInside(x, y)) {
-            buffer[x][y] = value;
-        }
-
+    private boolean isInside(int x, int y) {
+        return (x >= 0 && y >= 0 && x < width && y < height);
     }
 
+    @Override
+    public void setElement(int x, int y, Double value) {
+        if (isInside(x, y))
+            depth[x][y] = value;
+    }
 }

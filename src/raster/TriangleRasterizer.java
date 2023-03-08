@@ -2,50 +2,44 @@ package raster;
 
 import model.Shader;
 import model.Vertex;
-import transforms.Col;
 import transforms.Point3D;
 import transforms.Vec3D;
-import utils.Lerp;
-
-import java.awt.*;
 import java.util.Optional;
 
 public class TriangleRasterizer {
 
     private final ZBuffer zBuffer;
 
-    private final Lerp<Vertex> lerp;// LERP pro interpolace
     private final int width;
     private final int height;
-    private Shader shader;
+//    private final Shader shader;
     private int modeCut = 1;
 
-    public void setModeCut(int modeCut) {
+    public void setCuttingMode(int modeCut) {
         this.modeCut = modeCut;
     }
 
-    public TriangleRasterizer(ZBuffer zBuffer) {
-        this.lerp = new Lerp<>();
+    public TriangleRasterizer(ZBuffer zBuffer/*, Shader shader*/) {
         this.zBuffer = zBuffer;
         width = zBuffer.getImageBuffer().getWidth();
         height = zBuffer.getImageBuffer().getHeight();
-        this.shader = shader;
+        /*this.shader = shader;*/
 
     }
-public void rasterize(Vertex v1){
-    if (fastClip(v1.getPosition()))
-        return;
-    Optional<Vertex> v1Dehomog = v1.dehomog();
-    if(v1Dehomog.isEmpty())
-        return;
-    Vec3D newP1 = transform(v1Dehomog.get().getPosition());
-    v1.setPosition(newP1);
-    zBuffer.drawWithZTest((int)v1.getPosition().getX(),(int)v1.getPosition().getY(),v1.getPosition().getZ(),v1.getColor());
-}
+    public void rasterize(Vertex v1){
+        if (fastClip(v1.getPosition()))
+            return;
+        Optional<Vertex> v1Dehomog = v1.dehomog();
+        if(v1Dehomog.isEmpty())
+            return;
+        Vec3D newP1 = transform(v1Dehomog.get().getPosition());
+        v1.setPosition(newP1);
+        zBuffer.drawPixelWithTest((int)v1.getPosition().getX(),(int)v1.getPosition().getY(),v1.getPosition().getZ(),v1.getColor());
+    }
     public void rasterize(Vertex p1, Vertex p2) {
 
 
-       if (fastClip(p1.getPosition()) || fastClip(p2.getPosition()));
+        if (fastClip(p1.getPosition()) || fastClip(p2.getPosition()));
 
 
 
@@ -73,7 +67,8 @@ public void rasterize(Vertex v1){
             for (int i = (int)p1.getPosition().getX();i<p2.getPosition().getX();i++){
                 double t = (i - p1.getPosition().getX()) / (p2.getPosition().getX() - p1.getPosition().getX());
                 Vertex v = p1.mul(1 - t).add(p2.mul(t));
-                zBuffer.drawWithZTest((int)v.getPosition().getX(),(int)v.getPosition().getY(),v.getPosition().getZ(), shader.shade(v));
+                zBuffer.drawPixelWithTest((int)v.getPosition().getX(),(int)v.getPosition().getY(),v.getPosition().getZ(), p1.getColor()
+                        /*, shader.shade(v)*/);
             }
 
         } else if(p2.getPosition().getX() == p1.getPosition().getX()||Math.abs(dy) > Math.abs(dx)) {
@@ -88,7 +83,7 @@ public void rasterize(Vertex v1){
 
 
 
-                zBuffer.drawWithZTest((int)v.getPosition().getX(),(int)v.getPosition().getY(),v.getPosition().getZ(), shader.shade(v));
+                zBuffer.drawPixelWithTest((int)v.getPosition().getX(),(int)v.getPosition().getY(),v.getPosition().getZ(), p2.getColor() /*shader.shade(v*/);
             }
 
         }
@@ -97,29 +92,29 @@ public void rasterize(Vertex v1){
     public void rasterize(Vertex p1, Vertex p2, Vertex p3) {
 
 
-               if (fastClip(p1.getPosition()) || fastClip(p2.getPosition()) || fastClip(p3.getPosition()));
+        if (fastClip(p1.getPosition()) || fastClip(p2.getPosition()) || fastClip(p3.getPosition()));
 
-                   if (p2.getPosition().getZ()<0)
-            {
-                double s1 = (0 - p1.getPosition().getZ())/(p2.getPosition().getZ() - p2.getPosition().getZ()); //odečti minimem děl rozsahem
-                Vertex ab = p2.mul(1-s1).add(p1.mul(s1));
-                double s2 = (0 - p1.getPosition().getZ())/(p1.getPosition().getZ() - p3.getPosition().getZ());
-                Vertex ac = p3.mul(1-s1).add(p1.mul(s2));
-                simpleScanlineTriangle(p1,ab,ac,1);
+        if (p2.getPosition().getZ()<0)
+        {
+            double s1 = (0 - p1.getPosition().getZ())/(p2.getPosition().getZ() - p2.getPosition().getZ()); //odečti minimem děl rozsahem
+            Vertex ab = p2.mul(1-s1).add(p1.mul(s1));
+            double s2 = (0 - p1.getPosition().getZ())/(p1.getPosition().getZ() - p3.getPosition().getZ());
+            Vertex ac = p3.mul(1-s1).add(p1.mul(s2));
+            simpleScanlineTriangle(p1,ab,ac,1);
 
-            }
-                if (p3.getPosition().getZ()<0)
-                {
-                    double s1 = (0 - p3.getPosition().getZ())/(p3.getPosition().getZ() - p2.getPosition().getZ());
-                    Vertex ab = p2.mul(1-s1).add(p3.mul(s1));
-                    double s2 = (0 - p3.getPosition().getZ())/(p3.getPosition().getZ() - p3.getPosition().getZ());
-                    Vertex ac = p1.mul(1-s1).add(p3.mul(s2));
-                    simpleScanlineTriangle(p1,ab,ac,1);
-                    simpleScanlineTriangle(p1,ab,ac,1);
-                    return;
+        }
+        if (p3.getPosition().getZ()<0)
+        {
+            double s1 = (0 - p3.getPosition().getZ())/(p3.getPosition().getZ() - p2.getPosition().getZ());
+            Vertex ab = p2.mul(1-s1).add(p3.mul(s1));
+            double s2 = (0 - p3.getPosition().getZ())/(p3.getPosition().getZ() - p3.getPosition().getZ());
+            Vertex ac = p1.mul(1-s1).add(p3.mul(s2));
+            simpleScanlineTriangle(p1,ab,ac,1);
+            simpleScanlineTriangle(p1,ab,ac,1);
+            return;
 
-                }
-                simpleScanlineTriangle(p1,p2,p3,1);
+        }
+        simpleScanlineTriangle(p1,p2,p3,1);
 
         Optional<Vertex> v1Dehomog = p1.dehomog();
         Optional<Vertex> v2Dehomog = p2.dehomog();
@@ -170,7 +165,7 @@ public void rasterize(Vertex v1){
         for (int x = (int) v12.getPosition().getX(); x < v13.getPosition().getX(); x++) {
             double t = (x - v12.getPosition().getX()) / (v13.getPosition().getX() - v12.getPosition().getX());
             Vertex point = v12.mul(1 - t).add(v13.mul(t));
-            zBuffer.drawWithZTest(x, y, point.getPosition().getZ(), shader.shade(point));
+            zBuffer.drawPixelWithTest(x, y, point.getPosition().getZ(),  a.getColor() /*shader.shade(point)*/);
         }
     }
 
@@ -188,6 +183,6 @@ public void rasterize(Vertex v1){
     private boolean fastClip(Point3D p) {
         if (p.getW() < p.getX() || p.getX() < -p.getW()) return true;
         if (p.getW() < p.getY() || p.getY() < -p.getW()) return true;
-        return p.getW() < p.getZ() || p.getZ() < 0;// perspektivní, u orth by to byla 1
+        return p.getW() < p.getZ() || p.getZ() < 0;
     }
 }
