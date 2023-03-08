@@ -44,42 +44,42 @@ public class Cube extends Solid{
         getIndexBuffer().add(26);
         getIndexBuffer().add(27);
 
-        getVertexBuffer().add(new Vertex(0,0,0,new Col(0,1,0.)));//v2
-        getVertexBuffer().add(new Vertex(0.3,0,0,new Col(0.,1.,1)));//v3
-        getVertexBuffer().add(new Vertex(0.3,0.3,0,new Col(0.,1.,0)));//v4
-        getVertexBuffer().add(new Vertex(0,0.3,0,new Col(0,1,0.)));//v5
+        getVertexBuffer().add(new Vertex(0,0,0,new Col(0xff0000)));//v2
+        getVertexBuffer().add(new Vertex(0.3,0,0,new Col(0x00ff00)));//v3
+        getVertexBuffer().add(new Vertex(0.3,0.3,0,new Col(0xffff00)));//v4
+        getVertexBuffer().add(new Vertex(0,0.3,0,new Col(0x0000ff)));//v5
 
-        getVertexBuffer().add(new Vertex(0,0,0,new Col(0,1,0.)));//v2
-        getVertexBuffer().add(new Vertex(0,0.3,0,new Col(0.,1.,1)));//v3
-        getVertexBuffer().add(new Vertex(0.3,0.3,0,new Col(0.,1.,0)));//v4
-        getVertexBuffer().add(new Vertex(0.3,0,0,new Col(0,1,0.)));//v5
+        getVertexBuffer().add(new Vertex(0,0,0,new Col(0x0000ff)));//v2
+        getVertexBuffer().add(new Vertex(0,0.3,0,new Col(0x00ff00)));//v3
+        getVertexBuffer().add(new Vertex(0.3,0.3,0,new Col(0xffff00)));//v4
+        getVertexBuffer().add(new Vertex(0.3,0,0,new Col(0x0000ff)));//v5
 
 
-        getVertexBuffer().add(new Vertex(0,0,0.3,new Col(0,1,0.)));//v2
-        getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0.,1.,1)));//v3
-        getVertexBuffer().add(new Vertex(0.3,0.3,0.3,new Col(0.,1.,0)));//v4
-        getVertexBuffer().add(new Vertex(0,0.3,0.3,new Col(0,1,0.)));//v5
+        getVertexBuffer().add(new Vertex(0,0,0.3,new Col(0x0000ff)));//v2
+        getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0x00ff00)));//v3
+        getVertexBuffer().add(new Vertex(0.3,0.3,0.3,new Col(0xffff00)));//v4
+        getVertexBuffer().add(new Vertex(0,0.3,0.3,new Col(0x0000ff)));//v5
 
-        getVertexBuffer().add(new Vertex(0,0,0.3,new Col(0,1,0.)));//v2
+        getVertexBuffer().add(new Vertex(0,0,0.3,new Col(0x0000ff)));//v2
+        getVertexBuffer().add(new Vertex(0,0.3,0.3,new Col(0x00ff00)));//v3
+        getVertexBuffer().add(new Vertex(0.3,0.3,0.3,new Col(0xffff00)));//v4
+        getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0x0000ff)));//v5
+
+        getVertexBuffer().add(new Vertex(0,0,0.3,new Col(0x0000ff)));//v2
         getVertexBuffer().add(new Vertex(0,0.3,0.3,new Col(0.,1.,1)));//v3
-        getVertexBuffer().add(new Vertex(0.3,0.3,0.3,new Col(0.,1.,0)));//v4
-        getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0,1,0.)));//v5
-
-        getVertexBuffer().add(new Vertex(0,0,0.3,new Col(0,1,0.)));//v2
-        getVertexBuffer().add(new Vertex(0,0.3,0.3,new Col(0.,1.,1)));//v3
-        getVertexBuffer().add(new Vertex(0,0,0,new Col(0,1,0.)));//v2
+        getVertexBuffer().add(new Vertex(0,0,0,new Col(0x0000ff)));//v2
         getVertexBuffer().add(new Vertex(0.3,0,0,new Col(0.,1.,1)));//v3
 
 
-        getVertexBuffer().add(new Vertex(0.3,0.3,0,new Col(0.,1.,0)));//v4
-        getVertexBuffer().add(new Vertex(0,0.3,0,new Col(0,1,0.)));//v5
-        getVertexBuffer().add(new Vertex(0.3,0.3,0.3,new Col(0.,1.,0)));//v4
-        getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0,1,0.)));//v5
+        getVertexBuffer().add(new Vertex(0.3,0.3,0,new Col(0xffff00)));//v4
+        getVertexBuffer().add(new Vertex(0,0.3,0,new Col(0x0000ff)));//v5
+        getVertexBuffer().add(new Vertex(0.3,0.3,0.3,new Col(0xffff00)));//v4
+        getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0x0000ff)));//v5
 
-        getVertexBuffer().add(new Vertex(0,0,0,new Col(0,1,0.)));//v2
+        getVertexBuffer().add(new Vertex(0,0,0,new Col(0x0000ff)));//v2
         getVertexBuffer().add(new Vertex(0.3,0,0,new Col(0.,1.,1)));//v3
-        getVertexBuffer().add(new Vertex(0.3,0.3,0.3,new Col(0.,1.,0)));//v4
-        getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0,1,0.)));//v5
+        getVertexBuffer().add(new Vertex(0.3,0.3,0.3,new Col(0xffff00)));//v4
+        getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0x0000ff)));//v5
 
 
         getPartBuffer().add(new Part(TopologyType.TRIANGLE,0,1));
@@ -89,6 +89,7 @@ public class Cube extends Solid{
         getPartBuffer().add(new Part(TopologyType.TRIANGLE,16,1));
         getPartBuffer().add(new Part(TopologyType.TRIANGLE,20,1));
         getPartBuffer().add(new Part(TopologyType.TRIANGLE,24,1));
+
     }
 
-}
+    }
