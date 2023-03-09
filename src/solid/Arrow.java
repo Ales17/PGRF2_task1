@@ -1,5 +1,8 @@
-package model;
+package solid;
 
+import model.Part;
+import model.TopologyType;
+import model.Vertex;
 import transforms.Col;
 
 public class Arrow extends Solid {

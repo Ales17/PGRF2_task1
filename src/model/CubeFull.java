@@ -1,8 +1,9 @@
 package model;
 
+import solid.Solid;
 import transforms.Col;
 
-public class CubeFull extends Solid    {
+public class CubeFull extends Solid {
 
     public CubeFull(){
     // vertexy

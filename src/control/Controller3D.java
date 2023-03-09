@@ -5,6 +5,9 @@ import raster.ImageBuffer;
 import raster.ZBuffer;
 import render.Renderer;
 import raster.TriangleRasterizer;
+import shaders.Shader;
+import shaders.ShaderConstantColor;
+import shaders.ShaderInterpolatedColor;
 import transforms.*;
 import view.Panel;
 
@@ -12,9 +15,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Controller3D implements Controller {
-
     private final Panel panel;
-
     private int width, height;
     private Camera camera = new Camera()
             .withPosition(new Vec3D(-0.3,-0.8,1.7))
@@ -22,23 +23,34 @@ public class Controller3D implements Controller {
             .withZenith(-1)
             .withFirstPerson(true);
     private ZBuffer ZBuffer;
+    ShaderConstantColor shaderConst;
+    double cameraSpeed = 0.1;
     private TriangleRasterizer triangleRasterizer;
     Renderer renderer;
     Mat4 projection = new Mat4Identity();
     Point2D oldPoint;
-    int cuttingMode =0;
+    int cuttingMode = 0;
 
     Cube cube = new Cube();
+    CubeFull cubeFull = new CubeFull();
     CubeFrame cubeFrame = new CubeFrame();
+    Pyramid pyramid = new Pyramid();
     Axis axis = new Axis();
-
-    Shader shader;
 
     public Controller3D(Panel panel) {
         this.panel = panel;
+        // Měníme shader pomocí setteru
+        //triangleRasterizer.setShader(new ShaderInterpolatedColor());
         initObjects(panel.getRaster());
         initListeners(panel);
         redraw();
+
+        Shader greenShader = v -> {
+            return new Col(0x00ff00);
+        };
+        Col color = new Col(0x00ff00);
+        Shader colorShader = v -> new Col(color);
+
     }
 
     public void initObjects(ImageBuffer raster) {
@@ -88,8 +100,31 @@ public class Controller3D implements Controller {
             @Override
             public void keyPressed(KeyEvent e) {
                 Mat4 model;
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_UP:
+                        camera = camera.forward(cameraSpeed);
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        camera = camera.backward(cameraSpeed);
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        camera = camera.left(cameraSpeed);
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        camera = camera.right(cameraSpeed);
+                        break;
+                    case KeyEvent.VK_D:
+                        camera = camera.down(cameraSpeed);
+                        break;
+                    case KeyEvent.VK_U:
+                        camera = camera.up(cameraSpeed);
+                        break;
 
-                triangleRasterizer = new TriangleRasterizer(ZBuffer/*,shader*/);
+
+
+
+                }
+                triangleRasterizer = new TriangleRasterizer(ZBuffer);
                 panel.clear();
                 redraw();
 

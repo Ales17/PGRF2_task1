@@ -1,8 +1,9 @@
 package model;
 
+import solid.Solid;
 import transforms.Col;
 
-public class Axis extends Solid{
+public class Axis extends Solid {
     public Axis() {
         // xyz axis
 

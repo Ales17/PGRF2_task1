@@ -1,5 +1,6 @@
 package model;
 
+import solid.Solid;
 import transforms.Col;
 
 public class Triangle extends Solid {

@@ -1,11 +1,9 @@
 package model;
 
-import model.Part;
-import model.TopologyType;
-import model.Vertex;
+import solid.Solid;
 import transforms.Col;
 
-public class Cube extends Solid{
+public class Cube extends Solid {
 
     public Cube(){
         getIndexBuffer().add(0);
@@ -47,27 +45,27 @@ public class Cube extends Solid{
         getVertexBuffer().add(new Vertex(0,0,0,new Col(0xff0000)));//v2
         getVertexBuffer().add(new Vertex(0.3,0,0,new Col(0x00ff00)));//v3
         getVertexBuffer().add(new Vertex(0.3,0.3,0,new Col(0xffff00)));//v4
-        getVertexBuffer().add(new Vertex(0,0.3,0,new Col(0x0000ff)));//v5
+        getVertexBuffer().add(new Vertex(0,0.3,0,new Col(0xababab)));//v5
 
-        getVertexBuffer().add(new Vertex(0,0,0,new Col(0x0000ff)));//v2
-        getVertexBuffer().add(new Vertex(0,0.3,0,new Col(0x00ff00)));//v3
-        getVertexBuffer().add(new Vertex(0.3,0.3,0,new Col(0xffff00)));//v4
-        getVertexBuffer().add(new Vertex(0.3,0,0,new Col(0x0000ff)));//v5
+        getVertexBuffer().add(new Vertex(0,0,0,new Col(0xfafacc)));//v2
+        getVertexBuffer().add(new Vertex(0,0.3,0,new Col(0xcc0011)));//v3
+        getVertexBuffer().add(new Vertex(0.3,0.3,0,new Col(0xcaff00)));//v4
+        getVertexBuffer().add(new Vertex(0.3,0,0,new Col(0x00abff)));//v5
 
 
-        getVertexBuffer().add(new Vertex(0,0,0.3,new Col(0x0000ff)));//v2
-        getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0x00ff00)));//v3
-        getVertexBuffer().add(new Vertex(0.3,0.3,0.3,new Col(0xffff00)));//v4
+        getVertexBuffer().add(new Vertex(0,0,0.3,new Col(0x00bbff)));//v2
+        getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0x00aaf0)));//v3
+        getVertexBuffer().add(new Vertex(0.3,0.3,0.3,new Col(0xff3f00)));//v4
         getVertexBuffer().add(new Vertex(0,0.3,0.3,new Col(0x0000ff)));//v5
 
-        getVertexBuffer().add(new Vertex(0,0,0.3,new Col(0x0000ff)));//v2
+        getVertexBuffer().add(new Vertex(0,0,0.3,new Col(0x0050ff)));//v2
         getVertexBuffer().add(new Vertex(0,0.3,0.3,new Col(0x00ff00)));//v3
         getVertexBuffer().add(new Vertex(0.3,0.3,0.3,new Col(0xffff00)));//v4
         getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0x0000ff)));//v5
 
-        getVertexBuffer().add(new Vertex(0,0,0.3,new Col(0x0000ff)));//v2
-        getVertexBuffer().add(new Vertex(0,0.3,0.3,new Col(0.,1.,1)));//v3
-        getVertexBuffer().add(new Vertex(0,0,0,new Col(0x0000ff)));//v2
+        getVertexBuffer().add(new Vertex(0,0,0.3,new Col(0x000ccc)));//v2
+        getVertexBuffer().add(new Vertex(0,0.3,0.3,new Col(0x00ffff)));//v3
+        getVertexBuffer().add(new Vertex(0,0,0,new Col(0xffff00)));//v2
         getVertexBuffer().add(new Vertex(0.3,0,0,new Col(0.,1.,1)));//v3
 
 
@@ -77,7 +75,7 @@ public class Cube extends Solid{
         getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0x0000ff)));//v5
 
         getVertexBuffer().add(new Vertex(0,0,0,new Col(0x0000ff)));//v2
-        getVertexBuffer().add(new Vertex(0.3,0,0,new Col(0.,1.,1)));//v3
+        getVertexBuffer().add(new Vertex(0.3,0,0,new Col(0x00ffff)));//v3
         getVertexBuffer().add(new Vertex(0.3,0.3,0.3,new Col(0xffff00)));//v4
         getVertexBuffer().add(new Vertex(0.3,0,0.3,new Col(0x0000ff)));//v5
 

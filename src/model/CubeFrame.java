@@ -1,8 +1,9 @@
 package model;
 
+import solid.Solid;
 import transforms.Col;
 
-public class CubeFrame extends Solid{
+public class CubeFrame extends Solid {
     public CubeFrame()
     {
 

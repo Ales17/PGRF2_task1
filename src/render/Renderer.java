@@ -1,7 +1,7 @@
 package render;
 
 
-import model.Solid;
+import solid.Solid;
 import model.Part;
 import model.Vertex;
 import raster.TriangleRasterizer;
@@ -54,9 +54,9 @@ public class Renderer {
                         v3 = v3.mul(trans);
 
                         triangleRasterizer.rasterize(
-                                new Vertex(v1.mul(1 / v1.getHomogCoordinate())),
-                                new Vertex(v2.mul(1 / v2.getHomogCoordinate())),
-                                new Vertex(v3.mul(1 / v3.getHomogCoordinate()))
+                                new Vertex(v1.mul(1 / v1.getOne())),
+                                new Vertex(v2.mul(1 / v2.getOne())),
+                                new Vertex(v3.mul(1 / v3.getOne()))
                         );
                         start += 3;
                     }

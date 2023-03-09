@@ -5,7 +5,7 @@ import transforms.*;
 import java.util.Optional;
 
 public class Vertex implements Vectorizable<Vertex> {
-    double homogCoordinate;
+    double one;
     private Point3D position; //// Pozice vrcholu
     private Col color; //// Barva vrcholu
     private Vec2D textureCoordinates; //// Texturová souřadnice vrcholu
@@ -17,7 +17,7 @@ public class Vertex implements Vectorizable<Vertex> {
         normalVector = new Vec3D(0, 0, 0);
         textureCoordinates = new Vec2D(1, 1);
         this.color = color;
-        homogCoordinate = 1;
+        one = 1;
     }
 
     //// Konstruktor vrcholu s texturovou souřadnicí
@@ -26,8 +26,13 @@ public class Vertex implements Vectorizable<Vertex> {
         color = vertex.color;
         normalVector = vertex.normalVector;
         textureCoordinates = vertex.textureCoordinates;
-        homogCoordinate = 1;
-    }    //// Gettery a settery
+        one = 1;
+    }
+
+    public Vertex(Point3D position) {
+        //TODO implement
+    }
+    //// Gettery a settery
     public Col getColor() {
         return color;
     }
@@ -39,8 +44,8 @@ public class Vertex implements Vectorizable<Vertex> {
         return position;
     }
 
-    public double getHomogCoordinate() {
-        return homogCoordinate;
+    public double getOne() {
+        return one;
     }
 
     public Vec3D getNormalVector() {
@@ -66,15 +71,15 @@ public class Vertex implements Vectorizable<Vertex> {
 
 
     public Vertex mul(Mat4 transMat) {
-        return new Vertex(position.mul(transMat), color, textureCoordinates, normalVector, homogCoordinate);
+        return new Vertex(position.mul(transMat), color, textureCoordinates, normalVector, one);
     }
 
-    public Vertex(Point3D point, Col color, Vec2D textureCoordinates, Vec3D normalVector, double homogCoordinate) {
+    public Vertex(Point3D point, Col color, Vec2D textureCoordinates, Vec3D normalVector, double one) {
         this.position = point;
         this.color = color;
         this.textureCoordinates = textureCoordinates;
         this.normalVector = normalVector;
-        this.homogCoordinate = homogCoordinate;
+        this.one = one;
     }
     public Vertex add(Vertex mul) {
         return new Vertex(
@@ -82,7 +87,7 @@ public class Vertex implements Vectorizable<Vertex> {
                 color.add(mul.color),
                 textureCoordinates.add(mul.textureCoordinates),
                 normalVector.add(mul.normalVector),
-                homogCoordinate + mul.homogCoordinate
+                one + mul.one
         );
     }
     @Override
@@ -92,7 +97,7 @@ public class Vertex implements Vectorizable<Vertex> {
                 color.mul(d),
                 textureCoordinates.mul(d),
                 normalVector.mul(d),
-                homogCoordinate * d
+                one * d
         );
     }
     public Optional<Vertex> dehomog() {
@@ -103,7 +108,7 @@ public class Vertex implements Vectorizable<Vertex> {
                 new Col(color.getR() / position.getW(), color.getG() / position.getW(), color.getB() / position.getW()),
                 new Vec2D(textureCoordinates.getX() / position.getW(), textureCoordinates.getY() / position.getW()),
                 new Vec3D(normalVector.getX() / position.getW(), normalVector.getY() / position.getW(), normalVector.getZ() / position.getW()),
-                homogCoordinate / position.getW()
+                one / position.getW()
         ));
     }
 

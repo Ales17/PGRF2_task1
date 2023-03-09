@@ -1,8 +1,9 @@
 package model;
 
+import solid.Solid;
 import transforms.Col;
 
-public class Pyramid extends Solid{
+public class Pyramid extends Solid {
 
 
     public Pyramid() {

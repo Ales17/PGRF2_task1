@@ -1,9 +1,13 @@
 package raster;
 
-import model.Shader;
 import model.Vertex;
+import shaders.Shader;
+import shaders.ShaderConstantColor;
+import shaders.ShaderInterpolatedColor;
 import transforms.Point3D;
 import transforms.Vec3D;
+import utils.Lerp;
+
 import java.util.Optional;
 
 public class TriangleRasterizer {
@@ -12,19 +16,23 @@ public class TriangleRasterizer {
 
     private final int width;
     private final int height;
-//    private final Shader shader;
+    private final Lerp<Vertex> lerp;
+     private ShaderConstantColor shaderConst = new ShaderConstantColor();
+     private ShaderInterpolatedColor shaderInterpolated = new ShaderInterpolatedColor();
     private int modeCut = 1;
 
     public void setCuttingMode(int modeCut) {
         this.modeCut = modeCut;
     }
 
-    public TriangleRasterizer(ZBuffer zBuffer/*, Shader shader*/) {
+    // TODO ShaderInterpolatedColor
+
+
+    public TriangleRasterizer(ZBuffer zBuffer) {
         this.zBuffer = zBuffer;
+        this.lerp = new Lerp<>();
         width = zBuffer.getImageBuffer().getWidth();
         height = zBuffer.getImageBuffer().getHeight();
-        /*this.shader = shader;*/
-
     }
     public void rasterize(Vertex v1){
         if (fastClip(v1.getPosition()))
@@ -34,15 +42,10 @@ public class TriangleRasterizer {
             return;
         Vec3D newP1 = transform(v1Dehomog.get().getPosition());
         v1.setPosition(newP1);
-        zBuffer.drawPixelWithTest((int)v1.getPosition().getX(),(int)v1.getPosition().getY(),v1.getPosition().getZ(),v1.getColor());
+        zBuffer.drawWithZTest((int)v1.getPosition().getX(),(int)v1.getPosition().getY(),v1.getPosition().getZ(),shaderInterpolated.shade(v1));
     }
     public void rasterize(Vertex p1, Vertex p2) {
-
-
         if (fastClip(p1.getPosition()) || fastClip(p2.getPosition()));
-
-
-
         Optional<Vertex> v1Dehomog = p1.dehomog();
         Optional<Vertex> v2Dehomog = p2.dehomog();
         if (v1Dehomog.isEmpty() || v2Dehomog.isEmpty())
@@ -67,8 +70,7 @@ public class TriangleRasterizer {
             for (int i = (int)p1.getPosition().getX();i<p2.getPosition().getX();i++){
                 double t = (i - p1.getPosition().getX()) / (p2.getPosition().getX() - p1.getPosition().getX());
                 Vertex v = p1.mul(1 - t).add(p2.mul(t));
-                zBuffer.drawPixelWithTest((int)v.getPosition().getX(),(int)v.getPosition().getY(),v.getPosition().getZ(), p1.getColor()
-                        /*, shader.shade(v)*/);
+                zBuffer.drawWithZTest((int)v.getPosition().getX(),(int)v.getPosition().getY(),v.getPosition().getZ(), p1.getColor());
             }
 
         } else if(p2.getPosition().getX() == p1.getPosition().getX()||Math.abs(dy) > Math.abs(dx)) {
@@ -83,7 +85,7 @@ public class TriangleRasterizer {
 
 
 
-                zBuffer.drawPixelWithTest((int)v.getPosition().getX(),(int)v.getPosition().getY(),v.getPosition().getZ(), p2.getColor() /*shader.shade(v*/);
+                zBuffer.drawWithZTest((int)v.getPosition().getX(),(int)v.getPosition().getY(),v.getPosition().getZ(),shaderInterpolated.shade(v));
             }
 
         }
@@ -96,7 +98,7 @@ public class TriangleRasterizer {
 
         if (p2.getPosition().getZ()<0)
         {
-            double s1 = (0 - p1.getPosition().getZ())/(p2.getPosition().getZ() - p2.getPosition().getZ()); //odečti minimem děl rozsahem
+            double s1 = (0 - p1.getPosition().getZ())/(p2.getPosition().getZ() - p2.getPosition().getZ());
             Vertex ab = p2.mul(1-s1).add(p1.mul(s1));
             double s2 = (0 - p1.getPosition().getZ())/(p1.getPosition().getZ() - p3.getPosition().getZ());
             Vertex ac = p3.mul(1-s1).add(p1.mul(s2));
@@ -165,7 +167,7 @@ public class TriangleRasterizer {
         for (int x = (int) v12.getPosition().getX(); x < v13.getPosition().getX(); x++) {
             double t = (x - v12.getPosition().getX()) / (v13.getPosition().getX() - v12.getPosition().getX());
             Vertex point = v12.mul(1 - t).add(v13.mul(t));
-            zBuffer.drawPixelWithTest(x, y, point.getPosition().getZ(),  a.getColor() /*shader.shade(point)*/);
+            zBuffer.drawWithZTest(x, y, point.getPosition().getZ(),  shaderInterpolated.shade(v12) );
         }
     }
 
@@ -185,4 +187,11 @@ public class TriangleRasterizer {
         if (p.getW() < p.getY() || p.getY() < -p.getW()) return true;
         return p.getW() < p.getZ() || p.getZ() < 0;
     }
-}
+
+public void setShader(Shader shader) {
+        // set shaderConst or ShaderInterpolated both implement shader interface
+        //this.shader = shader;
+
+    }
+    }
+

@@ -1,5 +1,7 @@
-package model;
+package solid;
 
+import model.Part;
+import model.Vertex;
 import transforms.Mat4;
 import transforms.Mat4Identity;
 
