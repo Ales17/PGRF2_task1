@@ -7,7 +7,6 @@ import render.Renderer;
 import raster.TriangleRasterizer;
 import shaders.Shader;
 import shaders.ShaderConstantColor;
-import shaders.ShaderInterpolatedColor;
 import transforms.*;
 import view.Panel;
 
@@ -28,7 +27,7 @@ public class Controller3D implements Controller {
     private TriangleRasterizer triangleRasterizer;
     Renderer renderer;
     Mat4 projection = new Mat4Identity();
-    Point2D oldPoint;
+    Point2D prevPoint;
     int cuttingMode = 0;
 
     Cube cube = new Cube();
@@ -69,7 +68,7 @@ public class Controller3D implements Controller {
         panel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                oldPoint= new Point2D(e.getX(),e.getY());
+                prevPoint = new Point2D(e.getX(),e.getY());
             }
         });
 
@@ -77,15 +76,15 @@ public class Controller3D implements Controller {
             @Override
             public void mouseDragged(MouseEvent e) {
                 panel.clear();
-                double dx = (e.getX() - oldPoint.getX());
-                double dy = (e.getY() - oldPoint.getY());
+                double dx = (e.getX() - prevPoint.getX());
+                double dy = (e.getY() - prevPoint.getY());
                 double zenith = camera.getZenith() - (Math.PI * dy) / (panel.getHeight() - 1);
                 if (zenith > Math.PI / 2) zenith = Math.PI / 2;
                 if (zenith < -Math.PI / 2) zenith = -Math.PI / 2;
                 camera = camera.withZenith(zenith);
                 double azimuth = camera.getAzimuth() + ((Math.PI * dx) / (panel.getWidth() - 1));
                 camera = camera.withAzimuth((azimuth % (Math.PI * 2)));
-                oldPoint = new Point2D(e.getX(), e.getY());
+                prevPoint = new Point2D(e.getX(), e.getY());
                 redraw();
             }
         });

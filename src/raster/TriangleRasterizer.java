@@ -17,16 +17,9 @@ public class TriangleRasterizer {
     private final int width;
     private final int height;
     private final Lerp<Vertex> lerp;
-     private ShaderConstantColor shaderConst = new ShaderConstantColor();
-     private ShaderInterpolatedColor shaderInterpolated = new ShaderInterpolatedColor();
-    private int modeCut = 1;
-
-    public void setCuttingMode(int modeCut) {
-        this.modeCut = modeCut;
-    }
-
-    // TODO ShaderInterpolatedColor
-
+    private ShaderConstantColor shaderConst = new ShaderConstantColor();
+    private ShaderInterpolatedColor shaderInterpolated = new ShaderInterpolatedColor();
+    private int cuttingMode = 1;
 
     public TriangleRasterizer(ZBuffer zBuffer) {
         this.zBuffer = zBuffer;
@@ -34,18 +27,26 @@ public class TriangleRasterizer {
         width = zBuffer.getImageBuffer().getWidth();
         height = zBuffer.getImageBuffer().getHeight();
     }
-    public void rasterize(Vertex v1){
+
+    // TODO ShaderInterpolatedColor
+
+    public void setCuttingMode(int modeCut) {
+        this.cuttingMode = modeCut;
+    }
+
+    public void rasterize(Vertex v1) {
         if (fastClip(v1.getPosition()))
             return;
         Optional<Vertex> v1Dehomog = v1.dehomog();
-        if(v1Dehomog.isEmpty())
+        if (v1Dehomog.isEmpty())
             return;
         Vec3D newP1 = transform(v1Dehomog.get().getPosition());
         v1.setPosition(newP1);
-        zBuffer.drawWithZTest((int)v1.getPosition().getX(),(int)v1.getPosition().getY(),v1.getPosition().getZ(),shaderInterpolated.shade(v1));
+        zBuffer.drawWithZTest((int) v1.getPosition().getX(), (int) v1.getPosition().getY(), v1.getPosition().getZ(), shaderInterpolated.shade(v1));
     }
+
     public void rasterize(Vertex p1, Vertex p2) {
-        if (fastClip(p1.getPosition()) || fastClip(p2.getPosition()));
+        if (fastClip(p1.getPosition()) || fastClip(p2.getPosition())) ;
         Optional<Vertex> v1Dehomog = p1.dehomog();
         Optional<Vertex> v2Dehomog = p2.dehomog();
         if (v1Dehomog.isEmpty() || v2Dehomog.isEmpty())
@@ -63,29 +64,26 @@ public class TriangleRasterizer {
         Vertex temp;
         if (Math.abs(dy) < Math.abs(dx)) {
             if (p2.getPosition().getX() < p1.getPosition().getX()) {
-                temp =p1;
-                p1 =p2;
-                p2=temp;
+                temp = p1;
+                p1 = p2;
+                p2 = temp;
             }
-            for (int i = (int)p1.getPosition().getX();i<p2.getPosition().getX();i++){
+            for (int i = (int) p1.getPosition().getX(); i < p2.getPosition().getX(); i++) {
                 double t = (i - p1.getPosition().getX()) / (p2.getPosition().getX() - p1.getPosition().getX());
-                Vertex v = p1.mul(1 - t).add(p2.mul(t));
-                zBuffer.drawWithZTest((int)v.getPosition().getX(),(int)v.getPosition().getY(),v.getPosition().getZ(), p1.getColor());
+                Vertex v = lerp.lerp(p1, p2, t);
+                zBuffer.drawWithZTest((int) v.getPosition().getX(), (int) v.getPosition().getY(), v.getPosition().getZ(), p1.getColor());
             }
 
-        } else if(p2.getPosition().getX() == p1.getPosition().getX()||Math.abs(dy) > Math.abs(dx)) {
+        } else if (p2.getPosition().getX() == p1.getPosition().getX() || Math.abs(dy) > Math.abs(dx)) {
             if (p2.getPosition().getY() < p1.getPosition().getY()) {
-                temp =p1;
-                p1 =p2;
-                p2=temp;
+                temp = p1;
+                p1 = p2;
+                p2 = temp;
             }
-            for (int i = (int)p1.getPosition().getY();i<p2.getPosition().getY();i++){
+            for (int i = (int) p1.getPosition().getY(); i < p2.getPosition().getY(); i++) {
                 double t = (i - p1.getPosition().getY()) / (p2.getPosition().getY() - p1.getPosition().getY());
-                Vertex v =  p1.mul(1 - t).add(p2.mul(t));
-
-
-
-                zBuffer.drawWithZTest((int)v.getPosition().getX(),(int)v.getPosition().getY(),v.getPosition().getZ(),shaderInterpolated.shade(v));
+                Vertex v = lerp.lerp(p1, p2, t);
+                zBuffer.drawWithZTest((int) v.getPosition().getX(), (int) v.getPosition().getY(), v.getPosition().getZ(), shaderInterpolated.shade(v));
             }
 
         }
@@ -94,29 +92,27 @@ public class TriangleRasterizer {
     public void rasterize(Vertex p1, Vertex p2, Vertex p3) {
 
 
-        if (fastClip(p1.getPosition()) || fastClip(p2.getPosition()) || fastClip(p3.getPosition()));
+        if (fastClip(p1.getPosition()) || fastClip(p2.getPosition()) || fastClip(p3.getPosition())) ;
 
-        if (p2.getPosition().getZ()<0)
-        {
-            double s1 = (0 - p1.getPosition().getZ())/(p2.getPosition().getZ() - p2.getPosition().getZ());
-            Vertex ab = p2.mul(1-s1).add(p1.mul(s1));
-            double s2 = (0 - p1.getPosition().getZ())/(p1.getPosition().getZ() - p3.getPosition().getZ());
-            Vertex ac = p3.mul(1-s1).add(p1.mul(s2));
-            simpleScanlineTriangle(p1,ab,ac,1);
+        if (p2.getPosition().getZ() < 0) {
+            double s1 = (0 - p1.getPosition().getZ()) / (p2.getPosition().getZ() - p2.getPosition().getZ());
+            Vertex ab = lerp.lerp(p2, p1, s1);
+            double s2 = (0 - p1.getPosition().getZ()) / (p1.getPosition().getZ() - p3.getPosition().getZ());
+            Vertex ac = lerp.lerp(p3, p1, s2);
+            renderTriangle(p1, ab, ac, 1);
 
         }
-        if (p3.getPosition().getZ()<0)
-        {
-            double s1 = (0 - p3.getPosition().getZ())/(p3.getPosition().getZ() - p2.getPosition().getZ());
-            Vertex ab = p2.mul(1-s1).add(p3.mul(s1));
-            double s2 = (0 - p3.getPosition().getZ())/(p3.getPosition().getZ() - p3.getPosition().getZ());
-            Vertex ac = p1.mul(1-s1).add(p3.mul(s2));
-            simpleScanlineTriangle(p1,ab,ac,1);
-            simpleScanlineTriangle(p1,ab,ac,1);
+        if (p3.getPosition().getZ() < 0) {
+            double s1 = (0 - p3.getPosition().getZ()) / (p3.getPosition().getZ() - p2.getPosition().getZ());
+            Vertex ab = lerp.lerp(p2, p3, s1);
+            double s2 = (0 - p3.getPosition().getZ()) / (p3.getPosition().getZ() - p3.getPosition().getZ());
+            Vertex ac = lerp.lerp(p1, p3, s2);
+            renderTriangle(p1, ab, ac, 1);
+            renderTriangle(p1, ab, ac, 1);
             return;
 
         }
-        simpleScanlineTriangle(p1,p2,p3,1);
+        renderTriangle(p1, p2, p3, 1);
 
         Optional<Vertex> v1Dehomog = p1.dehomog();
         Optional<Vertex> v2Dehomog = p2.dehomog();
@@ -133,41 +129,42 @@ public class TriangleRasterizer {
 
         Vertex temp;
         if (p1.getPosition().getY() > p2.getPosition().getY()) {
-            temp =p1;
-            p1 =p2;
-            p2=temp;
+            temp = p1;
+            p1 = p2;
+            p2 = temp;
         }
         if (p2.getPosition().getY() > p3.getPosition().getY()) {
-            temp =p2;
-            p2 =p3;
-            p3=temp;
+            temp = p2;
+            p2 = p3;
+            p3 = temp;
         }
         if (p1.getPosition().getY() > p2.getPosition().getY()) {
-            temp =p1;
-            p1 =p2;
-            p2=temp;
+            temp = p1;
+            p1 = p2;
+            p2 = temp;
         }
-        for (int y = (int) p1.getPosition().getY()+1; y < p2.getPosition().getY(); y++) {
-            simpleScanlineTriangle(p1, p2, p3, y);
+        for (int y = (int) p1.getPosition().getY() + 1; y < p2.getPosition().getY(); y++) {
+            renderTriangle(p1, p2, p3, y);
         }
-        for (int y = (int) p2.getPosition().getY()+1; y < p3.getPosition().getY(); y++) {
-            simpleScanlineTriangle(p3, p2, p1, y);
+        for (int y = (int) p2.getPosition().getY() + 1; y < p3.getPosition().getY(); y++) {
+            renderTriangle(p3, p2, p1, y);
         }
     }
-    private void simpleScanlineTriangle(Vertex a, Vertex b, Vertex c, int y) {
+
+    private void renderTriangle(Vertex a, Vertex b, Vertex c, int y) {
         double s1 = (y - a.getPosition().getY()) / (b.getPosition().getY() - a.getPosition().getY());
         double s2 = (y - a.getPosition().getY()) / (c.getPosition().getY() - a.getPosition().getY());
-        Vertex v12 = a.mul(1 - s1).add(b.mul(s1));
-        Vertex v13 = a.mul(1 - s2).add(c.mul(s2));
+        Vertex v12 = lerp.lerp(a, b, s1);
+        Vertex v13 = lerp.lerp(a, c, s2);
         if (v12.getPosition().getX() > v13.getPosition().getX()) {
-            Vertex temp =v12;
-            v12 =v13;
-            v13=temp;
+            Vertex temp = v12;
+            v12 = v13;
+            v13 = temp;
         }
         for (int x = (int) v12.getPosition().getX(); x < v13.getPosition().getX(); x++) {
             double t = (x - v12.getPosition().getX()) / (v13.getPosition().getX() - v12.getPosition().getX());
-            Vertex point = v12.mul(1 - t).add(v13.mul(t));
-            zBuffer.drawWithZTest(x, y, point.getPosition().getZ(),  shaderInterpolated.shade(v12) );
+            Vertex point = lerp.lerp(v12, v13, t);
+            zBuffer.drawWithZTest(x, y, point.getPosition().getZ(), shaderInterpolated.shade(v12));
         }
     }
 
@@ -188,10 +185,10 @@ public class TriangleRasterizer {
         return p.getW() < p.getZ() || p.getZ() < 0;
     }
 
-public void setShader(Shader shader) {
+    public void setShader(Shader shader) {
         // set shaderConst or ShaderInterpolated both implement shader interface
         //this.shader = shader;
 
     }
-    }
+}
 

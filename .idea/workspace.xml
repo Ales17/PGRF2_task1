@@ -5,26 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6decd0e-5519-4a6a-b57b-9422abb34d9d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/shaders/Shader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shaders/ShaderConstantColor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shaders/ShaderInterpolatedColor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/solid/CurveWire.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/solid/PatchWire.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/control/Controller3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/Controller3D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Arrow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solid/Arrow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Axis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Axis.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Cube.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Cube.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/CubeFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/CubeFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/CubeFull.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/CubeFull.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Pyramid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Pyramid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Solid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solid/Solid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Triangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Triangle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Vertex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Vertex.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raster/TriangleRasterizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/TriangleRasterizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raster/ZBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/ZBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/render/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/Renderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/Lerp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/Lerp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,6 +88,7 @@
       <workItem from="1678250822709" duration="897000" />
       <workItem from="1678275710307" duration="1956000" />
       <workItem from="1678293014858" duration="5238000" />
+      <workItem from="1678360151264" duration="462000" />
     </task>
     <servers />
   </component>
