@@ -34,120 +34,120 @@ public class TriangleRasterizer {
         this.cuttingMode = modeCut;
     }
 
-    public void rasterize(Vertex v1) {
-        if (fastClip(v1.getPosition()))
+    public void rasterize(Vertex a) {
+        if (fastClip(a.getPosition()))
             return;
-        Optional<Vertex> v1Dehomog = v1.dehomog();
+        Optional<Vertex> v1Dehomog = a.dehomog();
         if (v1Dehomog.isEmpty())
             return;
         Vec3D newP1 = transform(v1Dehomog.get().getPosition());
-        v1.setPosition(newP1);
-        zBuffer.drawWithZTest((int) v1.getPosition().getX(), (int) v1.getPosition().getY(), v1.getPosition().getZ(), shaderInterpolated.shade(v1));
+        a.setPosition(newP1);
+        zBuffer.drawWithZTest((int) a.getPosition().getX(), (int) a.getPosition().getY(), a.getPosition().getZ(), shaderInterpolated.shade(a));
     }
 
-    public void rasterize(Vertex p1, Vertex p2) {
-        if (fastClip(p1.getPosition()) || fastClip(p2.getPosition())) ;
-        Optional<Vertex> v1Dehomog = p1.dehomog();
-        Optional<Vertex> v2Dehomog = p2.dehomog();
-        if (v1Dehomog.isEmpty() || v2Dehomog.isEmpty())
+    public void rasterize(Vertex a, Vertex b) {
+        if (fastClip(a.getPosition()) || fastClip(b.getPosition())) ;
+        Optional<Vertex> dehomogA = a.dehomog();
+        Optional<Vertex> dehomogB = b.dehomog();
+        if (dehomogA.isEmpty() || dehomogB.isEmpty())
             return;
-        Vec3D newP1 = transform(v1Dehomog.get().getPosition());
-        Vec3D newP2 = transform(v2Dehomog.get().getPosition());
-        p1.setPosition(newP1);
-        p2.setPosition(newP2);
-        trivialLine(p1, p2);
+        Vec3D newP1 = transform(dehomogA.get().getPosition());
+        Vec3D newP2 = transform(dehomogB.get().getPosition());
+        a.setPosition(newP1);
+        b.setPosition(newP2);
+        rasterizeLine(a, b);
     }
 
-    private void trivialLine(Vertex p1, Vertex p2) {
-        double dx = p2.getPosition().getX() - p1.getPosition().getX();
-        double dy = p2.getPosition().getY() - p1.getPosition().getY();
+    private void rasterizeLine(Vertex a, Vertex b) {
+        double dx = b.getPosition().getX() - a.getPosition().getX();
+        double dy = b.getPosition().getY() - a.getPosition().getY();
         Vertex temp;
         if (Math.abs(dy) < Math.abs(dx)) {
-            if (p2.getPosition().getX() < p1.getPosition().getX()) {
-                temp = p1;
-                p1 = p2;
-                p2 = temp;
+            if (b.getPosition().getX() < a.getPosition().getX()) {
+                temp = a;
+                a = b;
+                b = temp;
             }
-            for (int i = (int) p1.getPosition().getX(); i < p2.getPosition().getX(); i++) {
-                double t = (i - p1.getPosition().getX()) / (p2.getPosition().getX() - p1.getPosition().getX());
-                Vertex v = lerp.lerp(p1, p2, t);
-                zBuffer.drawWithZTest((int) v.getPosition().getX(), (int) v.getPosition().getY(), v.getPosition().getZ(), p1.getColor());
+            for (int i = (int) a.getPosition().getX(); i < b.getPosition().getX(); i++) {
+                double t = (i - a.getPosition().getX()) / (b.getPosition().getX() - a.getPosition().getX());
+                Vertex v = lerp.lerp(a, b, t);
+                zBuffer.drawWithZTest((int) v.getPosition().getX(), (int) v.getPosition().getY(), v.getPosition().getZ(), a.getColor());
             }
 
-        } else if (p2.getPosition().getX() == p1.getPosition().getX() || Math.abs(dy) > Math.abs(dx)) {
-            if (p2.getPosition().getY() < p1.getPosition().getY()) {
-                temp = p1;
-                p1 = p2;
-                p2 = temp;
+        } else if (b.getPosition().getX() == a.getPosition().getX() || Math.abs(dy) > Math.abs(dx)) {
+            if (b.getPosition().getY() < a.getPosition().getY()) {
+                temp = a;
+                a = b;
+                b = temp;
             }
-            for (int i = (int) p1.getPosition().getY(); i < p2.getPosition().getY(); i++) {
-                double t = (i - p1.getPosition().getY()) / (p2.getPosition().getY() - p1.getPosition().getY());
-                Vertex v = lerp.lerp(p1, p2, t);
+            for (int i = (int) a.getPosition().getY(); i < b.getPosition().getY(); i++) {
+                double t = (i - a.getPosition().getY()) / (b.getPosition().getY() - a.getPosition().getY());
+                Vertex v = lerp.lerp(a, b, t);
                 zBuffer.drawWithZTest((int) v.getPosition().getX(), (int) v.getPosition().getY(), v.getPosition().getZ(), shaderInterpolated.shade(v));
             }
 
         }
     }
 
-    public void rasterize(Vertex p1, Vertex p2, Vertex p3) {
+    public void rasterize(Vertex a, Vertex b, Vertex c) {
 
 
-        if (fastClip(p1.getPosition()) || fastClip(p2.getPosition()) || fastClip(p3.getPosition())) ;
+        if (fastClip(a.getPosition()) || fastClip(b.getPosition()) || fastClip(c.getPosition())) ;
 
-        if (p2.getPosition().getZ() < 0) {
-            double s1 = (0 - p1.getPosition().getZ()) / (p2.getPosition().getZ() - p2.getPosition().getZ());
-            Vertex ab = lerp.lerp(p2, p1, s1);
-            double s2 = (0 - p1.getPosition().getZ()) / (p1.getPosition().getZ() - p3.getPosition().getZ());
-            Vertex ac = lerp.lerp(p3, p1, s2);
-            renderTriangle(p1, ab, ac, 1);
+        if (b.getPosition().getZ() < 0) {
+            double s1 = (0 - a.getPosition().getZ()) / (b.getPosition().getZ() - b.getPosition().getZ());
+            Vertex ab = lerp.lerp(b, a, s1);
+            double s2 = (0 - a.getPosition().getZ()) / (a.getPosition().getZ() - c.getPosition().getZ());
+            Vertex ac = lerp.lerp(c, a, s2);
+            renderTriangle(a, ab, ac, 1);
 
         }
-        if (p3.getPosition().getZ() < 0) {
-            double s1 = (0 - p3.getPosition().getZ()) / (p3.getPosition().getZ() - p2.getPosition().getZ());
-            Vertex ab = lerp.lerp(p2, p3, s1);
-            double s2 = (0 - p3.getPosition().getZ()) / (p3.getPosition().getZ() - p3.getPosition().getZ());
-            Vertex ac = lerp.lerp(p1, p3, s2);
-            renderTriangle(p1, ab, ac, 1);
-            renderTriangle(p1, ab, ac, 1);
+        if (c.getPosition().getZ() < 0) {
+            double s1 = (0 - c.getPosition().getZ()) / (c.getPosition().getZ() - b.getPosition().getZ());
+            Vertex ab = lerp.lerp(b, c, s1);
+            double s2 = (0 - c.getPosition().getZ()) / (c.getPosition().getZ() - c.getPosition().getZ());
+            Vertex ac = lerp.lerp(a, c, s2);
+            renderTriangle(a, ab, ac, 1);
+            renderTriangle(a, ab, ac, 1);
             return;
 
         }
-        renderTriangle(p1, p2, p3, 1);
+        renderTriangle(a, b, c, 1);
 
-        Optional<Vertex> v1Dehomog = p1.dehomog();
-        Optional<Vertex> v2Dehomog = p2.dehomog();
-        Optional<Vertex> v3Dehomog = p3.dehomog();
+        Optional<Vertex> v1Dehomog = a.dehomog();
+        Optional<Vertex> v2Dehomog = b.dehomog();
+        Optional<Vertex> v3Dehomog = c.dehomog();
         if (v1Dehomog.isEmpty() || v2Dehomog.isEmpty() || v3Dehomog.isEmpty())
             return;
 
         Vec3D newP1 = transform(v1Dehomog.get().getPosition());
         Vec3D newP2 = transform(v2Dehomog.get().getPosition());
         Vec3D newP3 = transform(v3Dehomog.get().getPosition());
-        p1.setPosition(newP1);
-        p2.setPosition(newP2);
-        p3.setPosition(newP3);
+        a.setPosition(newP1);
+        b.setPosition(newP2);
+        c.setPosition(newP3);
 
         Vertex temp;
-        if (p1.getPosition().getY() > p2.getPosition().getY()) {
-            temp = p1;
-            p1 = p2;
-            p2 = temp;
+        if (a.getPosition().getY() > b.getPosition().getY()) {
+            temp = a;
+            a = b;
+            b = temp;
         }
-        if (p2.getPosition().getY() > p3.getPosition().getY()) {
-            temp = p2;
-            p2 = p3;
-            p3 = temp;
+        if (b.getPosition().getY() > c.getPosition().getY()) {
+            temp = b;
+            b = c;
+            c = temp;
         }
-        if (p1.getPosition().getY() > p2.getPosition().getY()) {
-            temp = p1;
-            p1 = p2;
-            p2 = temp;
+        if (a.getPosition().getY() > b.getPosition().getY()) {
+            temp = a;
+            a = b;
+            b = temp;
         }
-        for (int y = (int) p1.getPosition().getY() + 1; y < p2.getPosition().getY(); y++) {
-            renderTriangle(p1, p2, p3, y);
+        for (int y = (int) a.getPosition().getY() + 1; y < b.getPosition().getY(); y++) {
+            renderTriangle(a, b, c, y);
         }
-        for (int y = (int) p2.getPosition().getY() + 1; y < p3.getPosition().getY(); y++) {
-            renderTriangle(p3, p2, p1, y);
+        for (int y = (int) b.getPosition().getY() + 1; y < c.getPosition().getY(); y++) {
+            renderTriangle(c, b, a, y);
         }
     }
 

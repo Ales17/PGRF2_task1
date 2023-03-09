@@ -1,12 +1,10 @@
 package control;
 
 import model.*;
-import raster.ImageBuffer;
-import raster.ZBuffer;
 import render.Renderer;
-import raster.TriangleRasterizer;
-import shaders.Shader;
-import shaders.ShaderConstantColor;
+import raster.*;
+import shaders.*;
+import solid.*;
 import transforms.*;
 import view.Panel;
 
@@ -17,7 +15,7 @@ public class Controller3D implements Controller {
     private final Panel panel;
     private int width, height;
     private Camera camera = new Camera()
-            .withPosition(new Vec3D(-0.3,-0.8,1.7))
+            .withPosition(new Vec3D(-0.1,-0.95,2.2))
             .withAzimuth(-5)
             .withZenith(-1)
             .withFirstPerson(true);
@@ -31,11 +29,12 @@ public class Controller3D implements Controller {
     int cuttingMode = 0;
 
     Cube cube = new Cube();
-    CubeFull cubeFull = new CubeFull();
-    CubeFrame cubeFrame = new CubeFrame();
-    Pyramid pyramid = new Pyramid();
-    Axis axis = new Axis();
+     //Axis axis = new Axis();
+     ArrowX arX = new ArrowX();
+        ArrowY arY = new ArrowY();
+        ArrowZ arZ = new ArrowZ();
 
+     Pyramid pyramid = new Pyramid();
     public Controller3D(Panel panel) {
         this.panel = panel;
         // Měníme shader pomocí setteru
@@ -100,28 +99,41 @@ public class Controller3D implements Controller {
             public void keyPressed(KeyEvent e) {
                 Mat4 model;
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP:
+                    // WSAD
+                    case KeyEvent.VK_W -> {
                         camera = camera.forward(cameraSpeed);
-                        break;
-                    case KeyEvent.VK_DOWN:
+
+                    }
+                    case KeyEvent.VK_S -> {
                         camera = camera.backward(cameraSpeed);
-                        break;
-                    case KeyEvent.VK_LEFT:
+
+                    }
+                    case KeyEvent.VK_A -> {
                         camera = camera.left(cameraSpeed);
-                        break;
-                    case KeyEvent.VK_RIGHT:
+
+                    }
+                    case KeyEvent.VK_D -> {
                         camera = camera.right(cameraSpeed);
-                        break;
-                    case KeyEvent.VK_D:
-                        camera = camera.down(cameraSpeed);
-                        break;
-                    case KeyEvent.VK_U:
+
+                    }
+                    // ARROWS
+                    case KeyEvent.VK_UP -> {
                         camera = camera.up(cameraSpeed);
-                        break;
 
+                    }
+                    case KeyEvent.VK_DOWN -> {
+                        camera = camera.down(cameraSpeed);
 
+                    }
+                    // Another functions
+                    case KeyEvent.VK_C -> {
+                        camera = new Camera()
+                                .withPosition(new Vec3D(-0.3,-0.8,1.7))
+                                .withAzimuth(-5)
+                                .withZenith(-1)
+                                .withFirstPerson(true);
 
-
+                    }
                 }
                 triangleRasterizer = new TriangleRasterizer(ZBuffer);
                 panel.clear();
@@ -132,6 +144,8 @@ public class Controller3D implements Controller {
     }
 
     private void redraw() {
+
+
         width = panel.getRaster().getWidth();
         height = panel.getRaster().getHeight();
         Graphics g = panel.getRaster().getGraphics();
@@ -144,9 +158,10 @@ public class Controller3D implements Controller {
         renderer = new Renderer(triangleRasterizer);
         renderer.setProjectionMatrix(projection);
         renderer.setView(camera.getViewMatrix());
+        renderer.render(arX);
+        renderer.render(arY);
+        renderer.render(arZ);
 
-        renderer.render(axis);
-        renderer.render(cube);
         panel.repaint();
     }
 

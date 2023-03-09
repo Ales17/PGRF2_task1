@@ -25,7 +25,7 @@ public class PatchWire extends Solid {
         points[14] = new Point3D(1, -1, 1);
         points[15] = new Point3D(-1, 1, 1);
 
-        //todo instance
+        // todo instance
 
         // for cykly v sobě
 

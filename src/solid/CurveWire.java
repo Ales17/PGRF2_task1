@@ -1,5 +1,7 @@
 package solid;
 
+import model.Part;
+import model.TopologyType;
 import model.Vertex;
 import transforms.Cubic;
 import transforms.Point3D;
@@ -37,7 +39,11 @@ for(int i = 0; i < 100; i++){
 
 //TODO part buffer
 
-    }   // cubic compute očekává double od 0 do 1, potřebujeme převést
+
+
+    }
+
+    // cubic compute očekává double od 0 do 1, potřebujeme převést
     // compute vrací Point3D, což je pozice, tu pošleme do vertexBufferu
     // vertex neumí Point3D, musíme převést
 
