@@ -3,6 +3,7 @@ package control;
 import model.AxisList;
 import model.Cube;
 import model.Pyramid;
+import model.RotationAxis;
 import raster.ImageBuffer;
 import raster.TriangleRasterizer;
 import raster.ZBuffer;
@@ -13,6 +14,7 @@ import shaders.ShaderConstantColor;
 import solid.ArrowX;
 import solid.ArrowY;
 import solid.ArrowZ;
+import solid.Solid;
 import transforms.*;
 import view.Panel;
 
@@ -32,6 +34,15 @@ public class Controller3D implements Controller {
     int cuttingMode = 0;
     AxisList axisList = AxisList.X;
 
+    public void rotate(RotationAxis rotationAxis, double angle) {
+        // Create a rotation matrix around the specified axis and angle
+        Mat4 rotation = new Mat4Rot(angle, rotationAxis.getAxis());
+
+        // Apply the rotation to all solids in the scene
+        for (Solid solid : scene.getSolids()) {
+            solid.transform(rotation);
+        }
+    }
 
     boolean ortho = false;
     Camera defaultCamera = new Camera()
@@ -49,6 +60,8 @@ public class Controller3D implements Controller {
     private ZBuffer ZBuffer;
     private Scene scene;
     private TriangleRasterizer triangleRasterizer;
+    // Active axis
+    private RotationAxis rotationAxis = RotationAxis.X;
 
     public Controller3D(Panel panel) {
         this.panel = panel;
@@ -106,6 +119,16 @@ public class Controller3D implements Controller {
             public void keyPressed(KeyEvent e) {
                 Mat4 model;
                 switch (e.getKeyCode()) {
+                    //XYZ
+                    case KeyEvent.VK_X -> {
+                        axisList = AxisList.X;
+                    }
+                    case KeyEvent.VK_Y -> {
+                        axisList = AxisList.Y;
+                    }
+                    case KeyEvent.VK_Z -> {
+                        axisList = AxisList.Z;
+                    }
                     // WSAD
                     case KeyEvent.VK_W -> {
                         camera = camera.forward(cameraSpeed);
@@ -141,14 +164,37 @@ public class Controller3D implements Controller {
                             ortho = true;
                         }
                     }
-                    case KeyEvent.VK_R -> {
-
-
-
+                    case KeyEvent.VK_LEFT -> {
+                        switch (axisList) {
+                            case X -> {
+                                rotate(RotationAxis.X, -cameraRotationSpeed);
+                            }
+                            case Y -> {
+                                rotate(RotationAxis.Y, -cameraRotationSpeed);
+                            }
+                            case Z -> {
+                                rotate(RotationAxis.Z, -cameraRotationSpeed);
+                            }
+                        }
 
                     }
+                    case KeyEvent.VK_RIGHT -> {
+                        switch (axisList) {
+                            case X -> {
+                                rotate(RotationAxis.X, cameraRotationSpeed);
+                            }
+                            case Y -> {
+                                rotate(RotationAxis.Y, cameraRotationSpeed);
+                            }
+                            case Z -> {
+                                rotate(RotationAxis.Z, cameraRotationSpeed);
+                            }
+                        }
 
-                }
+                    }
+                    }
+
+
                 triangleRasterizer = new TriangleRasterizer(ZBuffer);
                 panel.clear();
                 redraw();
@@ -157,6 +203,7 @@ public class Controller3D implements Controller {
 
 
     }
+
 
 
     private void redraw() {
@@ -174,7 +221,6 @@ public class Controller3D implements Controller {
         scene.addSolid(arY);
         scene.addSolid(arZ);
         scene.addSolid(pyramid);
-
 
 
         renderer.render(scene);

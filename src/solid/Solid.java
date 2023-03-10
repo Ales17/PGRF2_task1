@@ -34,5 +34,7 @@ public abstract class Solid {
         this.model = model;
     }
 
-
+    public void transform(Mat4 matrix) {
+        this.model = matrix.mul(this.model);
+    }
 }
