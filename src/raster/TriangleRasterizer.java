@@ -19,7 +19,6 @@ public class TriangleRasterizer {
     private final Lerp<Vertex> lerp;
     private ShaderConstantColor shaderConst = new ShaderConstantColor();
     private ShaderInterpolatedColor shaderInterpolated = new ShaderInterpolatedColor();
-    private int cuttingMode = 1;
 
 
     public TriangleRasterizer(ZBuffer zBuffer) {
@@ -31,9 +30,7 @@ public class TriangleRasterizer {
 
     // TODO ShaderInterpolatedColor
 
-    public void setCuttingMode(int modeCut) {
-        this.cuttingMode = modeCut;
-    }
+
 
     public void prepare(Vertex a) {
         if (fastClip(a.getPosition()))

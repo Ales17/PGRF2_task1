@@ -71,33 +71,33 @@ public class Cube extends Solid {
 
         getVertexBuffer().add(new Vertex(1+xMove, 0+yMove, 0, c1));//v1
         getVertexBuffer().add(new Vertex(1+xMove, 0+yMove, 0, c1));//v2
-        getVertexBuffer().add(new Vertex(1+xMove, 1+yMove, 0, c2));//v3
-        getVertexBuffer().add(new Vertex(0+xMove, 1+yMove, 0, c2));//v4
+        getVertexBuffer().add(new Vertex(1+xMove, 1+yMove, 0, c1));//v3
+        getVertexBuffer().add(new Vertex(0+xMove, 1+yMove, 0, c1));//v4
 
         getVertexBuffer().add(new Vertex(0+xMove, 0+yMove, 1, c3));//v5
         getVertexBuffer().add(new Vertex(1+xMove, 0+yMove, 1, c3));//v6
-        getVertexBuffer().add(new Vertex(1+xMove, 1+yMove, 1, c4));//v7
-        getVertexBuffer().add(new Vertex(0+xMove, 1+yMove, 1, c4));//v8
+        getVertexBuffer().add(new Vertex(1+xMove, 1+yMove, 1, c3));//v7
+        getVertexBuffer().add(new Vertex(0+xMove, 1+yMove, 1, c3));//v8
 
-        getVertexBuffer().add(new Vertex(0+xMove, 0+yMove, 0, c5));//v1
-        getVertexBuffer().add(new Vertex(0+xMove, 1+yMove, 0, c5));//v4
+        getVertexBuffer().add(new Vertex(0+xMove, 0+yMove, 0, c6));//v1
+        getVertexBuffer().add(new Vertex(0+xMove, 1+yMove, 0, c6));//v4
         getVertexBuffer().add(new Vertex(0+xMove, 1+yMove, 1, c6));//v8
         getVertexBuffer().add(new Vertex(0+xMove, 0+yMove, 1, c6));//v5
 
         getVertexBuffer().add(new Vertex(1+xMove, 0+yMove, 0, c7));//v2
         getVertexBuffer().add(new Vertex(1+xMove, 1+yMove, 0, c7));//v3
-        getVertexBuffer().add(new Vertex(1+xMove, 1+yMove, 1, c8));//v7
-        getVertexBuffer().add(new Vertex(1+xMove, 0+yMove, 1, c8));//v6
+        getVertexBuffer().add(new Vertex(1+xMove, 1+yMove, 1, c7));//v7
+        getVertexBuffer().add(new Vertex(1+xMove, 0+yMove, 1, c7));//v6
 
         getVertexBuffer().add(new Vertex(0+xMove, 0+yMove, 0, c9));//v1
         getVertexBuffer().add(new Vertex(1+xMove, 0+yMove, 0, c9));//v2
-        getVertexBuffer().add(new Vertex(1+xMove, 0+yMove, 1, c10));//v6
-        getVertexBuffer().add(new Vertex(0+xMove, 0+yMove, 1, c10));//v5
+        getVertexBuffer().add(new Vertex(1+xMove, 0+yMove, 1, c9));//v6
+        getVertexBuffer().add(new Vertex(0+xMove, 0+yMove, 1, c9));//v5
 
         getVertexBuffer().add(new Vertex(0+xMove, 1+yMove, 0, c11));//v4
         getVertexBuffer().add(new Vertex(1+xMove, 1+yMove, 0, c11));//v3
-        getVertexBuffer().add(new Vertex(1+xMove, 1+yMove, 1, c12));//v7
-        getVertexBuffer().add(new Vertex(0+xMove, 1+yMove, 1, c12));//v8
+        getVertexBuffer().add(new Vertex(1+xMove, 1+yMove, 1, c11));//v7
+        getVertexBuffer().add(new Vertex(0+xMove, 1+yMove, 1, c11));//v8
 
         getPartBuffer().add(new Part(TopologyType.TRIANGLE, 0, 12));
 

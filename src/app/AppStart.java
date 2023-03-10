@@ -13,6 +13,7 @@ public class AppStart { //// Startovací třída aplikace
             new Controller3D(window.getPanel());
             window.setVisible(true);
             window.setResizable(false);
+            window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         });
         // https://www.google.com/search?q=SwingUtilities.invokeLater
         // https://www.javamex.com/tutorials/threads/invokelater.shtml

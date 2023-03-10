@@ -22,8 +22,4 @@ public class Scene {
     public void setTransform(Mat4 model) {
         solids.forEach(solid -> solid.setModelMatrix(model));
     }
-    // render using Renderer
-    public void renderAll(Renderer renderer) {
-        solids.forEach(renderer::render);
     }
-}

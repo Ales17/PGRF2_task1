@@ -13,11 +13,9 @@ import shaders.ShaderConstantColor;
 import solid.ArrowX;
 import solid.ArrowY;
 import solid.ArrowZ;
-import solid.Solid;
 import transforms.*;
 import view.Panel;
 
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -33,19 +31,20 @@ public class Controller3D implements Controller {
     Point2D prevPoint;
     int cuttingMode = 0;
     AxisList axisList = AxisList.X;
-    Cube cube = new Cube();
-    //Axis axis = new Axis();
-    ArrowX arX = new ArrowX();
-    ArrowY arY = new ArrowY();
-    ArrowZ arZ = new ArrowZ();
+
+
     boolean ortho = false;
-    Pyramid pyramid = new Pyramid();
-    private int width, height;
     Camera defaultCamera = new Camera()
             .withPosition(new Vec3D(-0.1, -0.95, 2.2))
             .withAzimuth(-5)
             .withZenith(-1)
             .withFirstPerson(true);
+    Cube cube = new Cube();
+    ArrowX arX = new ArrowX();
+    ArrowY arY = new ArrowY();
+    ArrowZ arZ = new ArrowZ();
+    Pyramid pyramid = new Pyramid();
+    private int width, height;
     private Camera camera = defaultCamera;
     private ZBuffer ZBuffer;
     private Scene scene;
@@ -128,9 +127,9 @@ public class Controller3D implements Controller {
                         camera = camera.down(cameraSpeed);
                     }
                     case KeyEvent.VK_C -> {
-                         resetScene();
+                        resetScene();
                     }
-                     case KeyEvent.VK_P -> {
+                    case KeyEvent.VK_P -> {
                         if (ortho) {
                             projection = new Mat4OrthoRH(3, 2, 0.1, 10);
                             ortho = false;
@@ -142,17 +141,15 @@ public class Controller3D implements Controller {
                             ortho = true;
                         }
                     }
-                     case KeyEvent.VK_E -> {
-                        if (renderer.isWireframe()) {
-                            renderer.setWireframe(false);
-                        } else {
-                            renderer.setWireframe(true);
-                        }
+                    case KeyEvent.VK_R -> {
+
+
+
 
                     }
 
                 }
-                 triangleRasterizer = new TriangleRasterizer(ZBuffer);
+                triangleRasterizer = new TriangleRasterizer(ZBuffer);
                 panel.clear();
                 redraw();
             }
@@ -165,21 +162,23 @@ public class Controller3D implements Controller {
     private void redraw() {
         width = panel.getRaster().getWidth();
         height = panel.getRaster().getHeight();
-        Graphics g = panel.getRaster().getGraphics();
-        g.setColor(Color.white);
+
         triangleRasterizer.getzBuffer().getDepthBuffer().clear();
 
         renderer = new Renderer(triangleRasterizer);
         renderer.setProjection(projection);
         renderer.setView(camera.getViewMatrix());
-
+        this.scene = new Scene();
+        scene.addSolid(cube);
         scene.addSolid(arX);
         scene.addSolid(arY);
         scene.addSolid(arZ);
-        scene.addSolid(cube);
         scene.addSolid(pyramid);
 
-        scene.renderAll(renderer);
+
+
+        renderer.render(scene);
+
         panel.repaint();
     }
 
@@ -207,7 +206,6 @@ public class Controller3D implements Controller {
         panel.clear();
         redraw();
     }
-
 
 
 }

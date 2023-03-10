@@ -26,7 +26,7 @@ public class Renderer {
         ) {
             int start;
             switch (part.getType()) {
-                case LINE :
+                case LINE -> {
                     start = part.getStartIndex();
                     for (int i = 0; i < part.getCount(); i++) {
                         int indexA = start;
@@ -36,11 +36,11 @@ public class Renderer {
                         a = a.mul(trans);
                         b = b.mul(trans);
 
-                        triangleRasterizer.prepareLine(a,b);
+                        triangleRasterizer.prepareLine(a, b);
                         start += 2;
                     }
-                    break;
-                case TRIANGLE:
+                }
+                case TRIANGLE -> {
                     start = part.getStartIndex();
                     for (int i = 0; i < part.getCount(); i++) {
                         int indexA = start;
@@ -53,30 +53,64 @@ public class Renderer {
                         a = a.mul(trans);
                         b = b.mul(trans);
                         c = c.mul(trans);
-                        if(wireframe) {
+                        if (wireframe) {
                             triangleRasterizer.prepareLine(a, b);
                             triangleRasterizer.prepareLine(b, c);
                             triangleRasterizer.prepareLine(c, a);
                         } else {
-                        triangleRasterizer.prepare(
-                                new Vertex(a.mul(1 / a.getOne())),
-                                new Vertex(b.mul(1 / b.getOne())),
-                                new Vertex(c.mul(1 / c.getOne())));
+                            triangleRasterizer.prepare(
+                                    new Vertex(a.mul(1 / a.getOne())),
+                                    new Vertex(b.mul(1 / b.getOne())),
+                                    new Vertex(c.mul(1 / c.getOne())));
 
-                        start += 3;
+                            start += 3;
                         }
                     }
-                    break;
-                case POINT:
+                }
+                case POINT -> {
                     start = part.getStartIndex();
-                    for(int i = 0;i<part.getCount();i++){
+                    for (int i = 0; i < part.getCount(); i++) {
                         Vertex a = solid.getVertexBuffer().get(solid.getIndexBuffer().get(start));
                         a = a.mul(trans);
                         triangleRasterizer.prepare(a);
                         start++;
                     }
-                    break;
+                }
+                case TRIANGLE_STRIP -> {
+                     start = part.getStartIndex();
+                    int indexA = solid.getIndexBuffer().get(start);
+                    int indexB = solid.getIndexBuffer().get(start + 1);
+                    int indexC = solid.getIndexBuffer().get(start + 2);
+                    Vertex a = solid.getVertexBuffer().get(indexA);
+                    Vertex b = solid.getVertexBuffer().get(indexB);
+                    Vertex c = solid.getVertexBuffer().get(indexC);
+                    a = a.mul(trans);
+                    b = b.mul(trans);
+                    c = c.mul(trans);
 
+                        triangleRasterizer.prepare(
+                                new Vertex(a.mul(1 / a.getOne())),
+                                new Vertex(b.mul(1 / b.getOne())),
+                                new Vertex(c.mul(1 / c.getOne())));
+                        start += 3;
+
+                    while (start < part.getStartIndex() + part.getCount()) {
+                        indexA = indexB;
+                        indexB = indexC;
+                        indexC = solid.getIndexBuffer().get(start);
+                        a = b;
+                        b = c;
+                        c = solid.getVertexBuffer().get(indexC);
+                        c = c.mul(trans);
+
+                            triangleRasterizer.prepare(
+                                    new Vertex(b.mul(1 / b.getOne())),
+                                    new Vertex(c.mul(1 / c.getOne())),
+                                    new Vertex(a.mul(1 / a.getOne())));
+
+                        start++;
+                    }
+                }
             }
 
         }
@@ -96,6 +130,10 @@ public class Renderer {
 
     public boolean isWireframe() {
         return wireframe;
+    }
+
+    public void render(Scene scene) {
+        scene.getSolids().forEach(this::render);
     }
 
 }

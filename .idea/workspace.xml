@@ -5,16 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6decd0e-5519-4a6a-b57b-9422abb34d9d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/model/AxisList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/raster/LineRasterizer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/render/Scene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/AppStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/AppStart.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/control/Controller3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/Controller3D.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Cube.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Cube.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/CubeFrame.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raster/TriangleRasterizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/TriangleRasterizer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/render/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/Renderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/render/Scene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/Scene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/shaders/ShaderInterpolatedColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shaders/ShaderInterpolatedColor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solid/ArrowZ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solid/ArrowZ.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solid/Solid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solid/Solid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Panel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +104,7 @@
       <workItem from="1678445628374" duration="1001000" />
       <workItem from="1678449037803" duration="135000" />
       <workItem from="1678449201849" duration="176000" />
-      <workItem from="1678449407647" duration="18908000" />
+      <workItem from="1678449407647" duration="22780000" />
     </task>
     <servers />
   </component>
