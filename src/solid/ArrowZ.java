@@ -9,8 +9,10 @@ public class ArrowZ extends Solid{
     public ArrowZ() {
         getVertexBuffer().add(new Vertex(0,0,0,new Col(0x0000ff)));//v1
         getVertexBuffer().add(new Vertex(0,0,1,new Col(0x0000ff)));//v1
+
         getVertexBuffer().add(new Vertex(0,0.1,0.7,new Col(0x0000ff)));//v1
         getVertexBuffer().add(new Vertex(0,-0.1,0.7,new Col(0x0000ff)));//v1
+        // triangle rotated 45 degrees
 
         // LINE
         getIndexBuffer().add(0);

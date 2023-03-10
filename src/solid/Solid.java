@@ -33,4 +33,6 @@ public abstract class Solid {
     public void setModelMatrix(Mat4 model) {
         this.model = model;
     }
+
+
 }

@@ -21,6 +21,7 @@ public class TriangleRasterizer {
     private ShaderInterpolatedColor shaderInterpolated = new ShaderInterpolatedColor();
     private int cuttingMode = 1;
 
+
     public TriangleRasterizer(ZBuffer zBuffer) {
         this.zBuffer = zBuffer;
         this.lerp = new Lerp<>();
@@ -34,7 +35,7 @@ public class TriangleRasterizer {
         this.cuttingMode = modeCut;
     }
 
-    public void rasterize(Vertex a) {
+    public void prepare(Vertex a) {
         if (fastClip(a.getPosition()))
             return;
         Optional<Vertex> aDehom = a.dehom();
@@ -45,7 +46,8 @@ public class TriangleRasterizer {
         zBuffer.drawWithZTest((int) a.getPosition().getX(), (int) a.getPosition().getY(), a.getPosition().getZ(), shaderInterpolated.shade(a));
     }
 
-    public void rasterize(Vertex a, Vertex b) {
+
+    public void prepareLine(Vertex a, Vertex b) {
         if (fastClip(a.getPosition()) || fastClip(b.getPosition())) ;
         Optional<Vertex> dehomA = a.dehom();
         Optional<Vertex> dehomB = b.dehom();
@@ -89,7 +91,7 @@ public class TriangleRasterizer {
         }
     }
 
-    public void rasterize(Vertex a, Vertex b, Vertex c) {
+    public void prepare(Vertex a, Vertex b, Vertex c) {
 
 
         if (fastClip(a.getPosition()) || fastClip(b.getPosition()) || fastClip(c.getPosition())) ;
@@ -114,18 +116,18 @@ public class TriangleRasterizer {
         }
         renderTriangle(a, b, c, 1);
 
-        Optional<Vertex> v1Dehom = a.dehom();
-        Optional<Vertex> v2Dehom = b.dehom();
-        Optional<Vertex> v3Dehom = c.dehom();
-        if (v1Dehom.isEmpty() || v2Dehom.isEmpty() || v3Dehom.isEmpty())
+        Optional<Vertex> aDehom = a.dehom();
+        Optional<Vertex> bDehom = b.dehom();
+        Optional<Vertex> cDehom = c.dehom();
+        if (aDehom.isEmpty() || bDehom.isEmpty() || cDehom.isEmpty())
             return;
 
-        Vec3D newP1 = transform(v1Dehom.get().getPosition());
-        Vec3D newP2 = transform(v2Dehom.get().getPosition());
-        Vec3D newP3 = transform(v3Dehom.get().getPosition());
-        a.setPosition(newP1);
-        b.setPosition(newP2);
-        c.setPosition(newP3);
+        Vec3D newA = transform(aDehom.get().getPosition());
+        Vec3D newB = transform(bDehom.get().getPosition());
+        Vec3D newC = transform(cDehom.get().getPosition());
+        a.setPosition(newA);
+        b.setPosition(newB);
+        c.setPosition(newC);
 
         Vertex temp;
         if (a.getPosition().getY() > b.getPosition().getY()) {

@@ -8,8 +8,6 @@ import raster.TriangleRasterizer;
 import transforms.Mat4;
 import transforms.Mat4Identity;
 
-import static model.TopologyType.POINT;
-
 public class Renderer {
     private TriangleRasterizer triangleRasterizer;
     boolean wireframe = false;
@@ -38,7 +36,7 @@ public class Renderer {
                         a = a.mul(trans);
                         b = b.mul(trans);
 
-                        triangleRasterizer.rasterize(a,b);
+                        triangleRasterizer.prepareLine(a,b);
                         start += 2;
                     }
                     break;
@@ -55,13 +53,18 @@ public class Renderer {
                         a = a.mul(trans);
                         b = b.mul(trans);
                         c = c.mul(trans);
-
-                        triangleRasterizer.rasterize(
+                        if(wireframe) {
+                            triangleRasterizer.prepareLine(a, b);
+                            triangleRasterizer.prepareLine(b, c);
+                            triangleRasterizer.prepareLine(c, a);
+                        } else {
+                        triangleRasterizer.prepare(
                                 new Vertex(a.mul(1 / a.getOne())),
                                 new Vertex(b.mul(1 / b.getOne())),
                                 new Vertex(c.mul(1 / c.getOne())));
 
                         start += 3;
+                        }
                     }
                     break;
                 case POINT:
@@ -69,7 +72,7 @@ public class Renderer {
                     for(int i = 0;i<part.getCount();i++){
                         Vertex a = solid.getVertexBuffer().get(solid.getIndexBuffer().get(start));
                         a = a.mul(trans);
-                        triangleRasterizer.rasterize(a);
+                        triangleRasterizer.prepare(a);
                         start++;
                     }
                     break;
