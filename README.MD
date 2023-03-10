@@ -1,0 +1,3 @@
+## COMPUTER GRAPHICS II
+
+- Camera: WASD, UP, DOWN

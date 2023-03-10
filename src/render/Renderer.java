@@ -8,10 +8,13 @@ import raster.TriangleRasterizer;
 import transforms.Mat4;
 import transforms.Mat4Identity;
 
+import static model.TopologyType.POINT;
+
 public class Renderer {
     private TriangleRasterizer triangleRasterizer;
+    boolean wireframe = false;
     Mat4 viewMatrix = new Mat4Identity();
-    Mat4 projectionMatrix = new Mat4Identity();
+    Mat4 projection = new Mat4Identity();
 
     public Renderer(TriangleRasterizer triangleRasterizer) {
         this.triangleRasterizer = triangleRasterizer;
@@ -20,7 +23,7 @@ public class Renderer {
 
 
     public void render(Solid solid) {
-        Mat4 trans = solid.getModelMatrix().mul(viewMatrix.mul(projectionMatrix));
+        Mat4 trans = solid.getModelMatrix().mul(viewMatrix.mul(projection));
         for (Part part : solid.getPartBuffer()
         ) {
             int start;
@@ -28,45 +31,45 @@ public class Renderer {
                 case LINE :
                     start = part.getStartIndex();
                     for (int i = 0; i < part.getCount(); i++) {
-                        int indexV1 = start;
-                        int indexV2 = start + 1;
-                        Vertex v1 = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexV1));
-                        Vertex v2 = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexV2));
-                        v1 = v1.mul(trans);
-                        v2 = v2.mul(trans);
+                        int indexA = start;
+                        int indexB = start + 1;
+                        Vertex a = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexA));
+                        Vertex b = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexB));
+                        a = a.mul(trans);
+                        b = b.mul(trans);
 
-                        triangleRasterizer.rasterize(v1,v2);
+                        triangleRasterizer.rasterize(a,b);
                         start += 2;
                     }
                     break;
                 case TRIANGLE:
                     start = part.getStartIndex();
                     for (int i = 0; i < part.getCount(); i++) {
-                        int indexV1 = start;
-                        int indexV2 = start + 1;
-                        int indexV3 = start + 2;
-                        Vertex v1 = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexV1));
-                        Vertex v2 = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexV2));
-                        Vertex v3 = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexV3));
+                        int indexA = start;
+                        int indexB = start + 1;
+                        int indexC = start + 2;
+                        Vertex a = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexA));
+                        Vertex b = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexB));
+                        Vertex c = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexC));
 
-                        v1 = v1.mul(trans);
-                        v2 = v2.mul(trans);
-                        v3 = v3.mul(trans);
+                        a = a.mul(trans);
+                        b = b.mul(trans);
+                        c = c.mul(trans);
 
                         triangleRasterizer.rasterize(
-                                new Vertex(v1.mul(1 / v1.getOne())),
-                                new Vertex(v2.mul(1 / v2.getOne())),
-                                new Vertex(v3.mul(1 / v3.getOne()))
-                        );
+                                new Vertex(a.mul(1 / a.getOne())),
+                                new Vertex(b.mul(1 / b.getOne())),
+                                new Vertex(c.mul(1 / c.getOne())));
+
                         start += 3;
                     }
                     break;
                 case POINT:
                     start = part.getStartIndex();
                     for(int i = 0;i<part.getCount();i++){
-                        Vertex v1 = solid.getVertexBuffer().get(solid.getIndexBuffer().get(start));
-                        v1 = v1.mul(trans);
-                        triangleRasterizer.rasterize(v1);
+                        Vertex a = solid.getVertexBuffer().get(solid.getIndexBuffer().get(start));
+                        a = a.mul(trans);
+                        triangleRasterizer.rasterize(a);
                         start++;
                     }
                     break;
@@ -76,13 +79,20 @@ public class Renderer {
         }
     }
 
-    public void setProjectionMatrix(Mat4 projection) {
-        projectionMatrix = projectionMatrix.mul(projection);
+    public void setProjection(Mat4 projection) {
+        this.projection = this.projection.mul(projection);
     }
 
     public void setView(Mat4 view) {
         viewMatrix = viewMatrix.mul(view);
     }
 
+    public void setWireframe(boolean wireframe) {
+        this.wireframe = wireframe;
+    }
+
+    public boolean isWireframe() {
+        return wireframe;
+    }
 
 }

@@ -11,6 +11,8 @@ public class Vertex implements Vectorizable<Vertex> {
     private Vec2D textureCoordinates; //// Texturová souřadnice vrcholu
     private Vec3D normalVector; //// Normálový vektor vrcholu
 
+    boolean isWire = false;
+
     //// Konstruktor vrcholu
     public Vertex(double x, double y, double z, Col color) {
         position = new Point3D(x, y, z, 1);
@@ -100,7 +102,8 @@ public class Vertex implements Vectorizable<Vertex> {
                 one * d
         );
     }
-    public Optional<Vertex> dehomog() {
+
+    public Optional<Vertex> dehom() {
         if (position.getW() == 0.)
             return Optional.empty();
         return Optional.of( new Vertex(

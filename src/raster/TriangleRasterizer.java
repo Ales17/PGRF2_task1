@@ -37,22 +37,22 @@ public class TriangleRasterizer {
     public void rasterize(Vertex a) {
         if (fastClip(a.getPosition()))
             return;
-        Optional<Vertex> v1Dehomog = a.dehomog();
-        if (v1Dehomog.isEmpty())
+        Optional<Vertex> aDehom = a.dehom();
+        if (aDehom.isEmpty())
             return;
-        Vec3D newP1 = transform(v1Dehomog.get().getPosition());
+        Vec3D newP1 = transform(aDehom.get().getPosition());
         a.setPosition(newP1);
         zBuffer.drawWithZTest((int) a.getPosition().getX(), (int) a.getPosition().getY(), a.getPosition().getZ(), shaderInterpolated.shade(a));
     }
 
     public void rasterize(Vertex a, Vertex b) {
         if (fastClip(a.getPosition()) || fastClip(b.getPosition())) ;
-        Optional<Vertex> dehomogA = a.dehomog();
-        Optional<Vertex> dehomogB = b.dehomog();
-        if (dehomogA.isEmpty() || dehomogB.isEmpty())
+        Optional<Vertex> dehomA = a.dehom();
+        Optional<Vertex> dehomB = b.dehom();
+        if (dehomA.isEmpty() || dehomB.isEmpty())
             return;
-        Vec3D newP1 = transform(dehomogA.get().getPosition());
-        Vec3D newP2 = transform(dehomogB.get().getPosition());
+        Vec3D newP1 = transform(dehomA.get().getPosition());
+        Vec3D newP2 = transform(dehomB.get().getPosition());
         a.setPosition(newP1);
         b.setPosition(newP2);
         rasterizeLine(a, b);
@@ -114,15 +114,15 @@ public class TriangleRasterizer {
         }
         renderTriangle(a, b, c, 1);
 
-        Optional<Vertex> v1Dehomog = a.dehomog();
-        Optional<Vertex> v2Dehomog = b.dehomog();
-        Optional<Vertex> v3Dehomog = c.dehomog();
-        if (v1Dehomog.isEmpty() || v2Dehomog.isEmpty() || v3Dehomog.isEmpty())
+        Optional<Vertex> v1Dehom = a.dehom();
+        Optional<Vertex> v2Dehom = b.dehom();
+        Optional<Vertex> v3Dehom = c.dehom();
+        if (v1Dehom.isEmpty() || v2Dehom.isEmpty() || v3Dehom.isEmpty())
             return;
 
-        Vec3D newP1 = transform(v1Dehomog.get().getPosition());
-        Vec3D newP2 = transform(v2Dehomog.get().getPosition());
-        Vec3D newP3 = transform(v3Dehomog.get().getPosition());
+        Vec3D newP1 = transform(v1Dehom.get().getPosition());
+        Vec3D newP2 = transform(v2Dehom.get().getPosition());
+        Vec3D newP3 = transform(v3Dehom.get().getPosition());
         a.setPosition(newP1);
         b.setPosition(newP2);
         c.setPosition(newP3);

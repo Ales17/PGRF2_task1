@@ -10,10 +10,13 @@ import view.Panel;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Controller3D implements Controller {
     private final Panel panel;
     private int width, height;
+
     private Camera camera = new Camera()
             .withPosition(new Vec3D(-0.1,-0.95,2.2))
             .withAzimuth(-5)
@@ -33,7 +36,7 @@ public class Controller3D implements Controller {
      ArrowX arX = new ArrowX();
         ArrowY arY = new ArrowY();
         ArrowZ arZ = new ArrowZ();
-
+boolean ortho = false;
      Pyramid pyramid = new Pyramid();
     public Controller3D(Panel panel) {
         this.panel = panel;
@@ -75,25 +78,18 @@ public class Controller3D implements Controller {
             @Override
             public void mouseDragged(MouseEvent e) {
                 panel.clear();
-                double dx = (e.getX() - prevPoint.getX());
-                double dy = (e.getY() - prevPoint.getY());
-                double zenith = camera.getZenith() - (Math.PI * dy) / (panel.getHeight() - 1);
-                if (zenith > Math.PI / 2) zenith = Math.PI / 2;
+                double x = (e.getX() - prevPoint.getX());
+                double y = (e.getY() - prevPoint.getY());
+                double zenith = camera.getZenith() - (Math.PI * y) / (panel.getHeight() - 1);
                 if (zenith < -Math.PI / 2) zenith = -Math.PI / 2;
+                if (zenith > Math.PI / 2) zenith = Math.PI / 2;
                 camera = camera.withZenith(zenith);
-                double azimuth = camera.getAzimuth() + ((Math.PI * dx) / (panel.getWidth() - 1));
+                double azimuth = camera.getAzimuth() + ((Math.PI * x) / (panel.getWidth() - 1));
                 camera = camera.withAzimuth((azimuth % (Math.PI * 2)));
                 prevPoint = new Point2D(e.getX(), e.getY());
                 redraw();
             }
         });
-        panel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-        });
-        panel.requestFocus();
-        panel.requestFocusInWindow();
         panel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -102,66 +98,81 @@ public class Controller3D implements Controller {
                     // WSAD
                     case KeyEvent.VK_W -> {
                         camera = camera.forward(cameraSpeed);
-
                     }
                     case KeyEvent.VK_S -> {
                         camera = camera.backward(cameraSpeed);
-
                     }
                     case KeyEvent.VK_A -> {
                         camera = camera.left(cameraSpeed);
-
                     }
                     case KeyEvent.VK_D -> {
                         camera = camera.right(cameraSpeed);
-
                     }
                     // ARROWS
                     case KeyEvent.VK_UP -> {
                         camera = camera.up(cameraSpeed);
-
                     }
                     case KeyEvent.VK_DOWN -> {
                         camera = camera.down(cameraSpeed);
-
                     }
                     // Another functions
                     case KeyEvent.VK_C -> {
                         camera = new Camera()
-                                .withPosition(new Vec3D(-0.3,-0.8,1.7))
+                                .withPosition(new Vec3D(-0.3, -0.8, 1.7))
                                 .withAzimuth(-5)
                                 .withZenith(-1)
                                 .withFirstPerson(true);
+                    }
+                    // Projection
+                    case KeyEvent.VK_P -> {
+                        if (ortho) {
+                            projection = new Mat4OrthoRH(3, 2, 0.1, 10);
+                            ortho = false;
+                        } else {
+                            projection = new Mat4PerspRH(Math.PI / 3,
+                                    panel.getHeight() / (float) panel.getWidth(),
+                                    0.1,
+                                    25);
+                            ortho = true;
+                        }
+                    }
+                    // Wireframe or not
+                    case KeyEvent.VK_E -> {
+                        if(renderer.isWireframe()) {
+                            renderer.setWireframe(false);
+                        } else {
+                            renderer.setWireframe(true);
+                        }
 
+                    }
+                    case KeyEvent.VK_R -> {
+                        // TODO rotace
+                        System.out.println("ROTATE");
                     }
                 }
                 triangleRasterizer = new TriangleRasterizer(ZBuffer);
                 panel.clear();
                 redraw();
-
             }
         });
     }
 
+
     private void redraw() {
-
-
         width = panel.getRaster().getWidth();
         height = panel.getRaster().getHeight();
         Graphics g = panel.getRaster().getGraphics();
-
         g.setColor(Color.white);
-
-
         triangleRasterizer.getzBuffer().getDepthBuffer().clear();
         triangleRasterizer.setCuttingMode(cuttingMode);
         renderer = new Renderer(triangleRasterizer);
-        renderer.setProjectionMatrix(projection);
+        renderer.setProjection(projection);
         renderer.setView(camera.getViewMatrix());
         renderer.render(arX);
         renderer.render(arY);
         renderer.render(arZ);
-
+        renderer.render(cube);
+        renderer.render(pyramid);
         panel.repaint();
     }
 
