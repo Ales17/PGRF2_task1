@@ -77,44 +77,13 @@ public class Renderer {
                     }
                 }
                 case TRIANGLE_STRIP -> {
-                     start = part.getStartIndex();
-                    int indexA = solid.getIndexBuffer().get(start);
-                    int indexB = solid.getIndexBuffer().get(start + 1);
-                    int indexC = solid.getIndexBuffer().get(start + 2);
-                    Vertex a = solid.getVertexBuffer().get(indexA);
-                    Vertex b = solid.getVertexBuffer().get(indexB);
-                    Vertex c = solid.getVertexBuffer().get(indexC);
-                    a = a.mul(trans);
-                    b = b.mul(trans);
-                    c = c.mul(trans);
-
-                        triangleRasterizer.prepare(
-                                new Vertex(a.mul(1 / a.getOne())),
-                                new Vertex(b.mul(1 / b.getOne())),
-                                new Vertex(c.mul(1 / c.getOne())));
-                        start += 3;
-
-                    while (start < part.getStartIndex() + part.getCount()) {
-                        indexA = indexB;
-                        indexB = indexC;
-                        indexC = solid.getIndexBuffer().get(start);
-                        a = b;
-                        b = c;
-                        c = solid.getVertexBuffer().get(indexC);
-                        c = c.mul(trans);
-
-                            triangleRasterizer.prepare(
-                                    new Vertex(b.mul(1 / b.getOne())),
-                                    new Vertex(c.mul(1 / c.getOne())),
-                                    new Vertex(a.mul(1 / a.getOne())));
-
-                        start++;
-                    }
+                    System.out.println("Triangle strip");
                 }
             }
 
         }
     }
+
 
     public void setProjection(Mat4 projection) {
         this.projection = this.projection.mul(projection);

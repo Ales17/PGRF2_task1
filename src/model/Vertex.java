@@ -46,6 +46,18 @@ public class Vertex implements Vectorizable<Vertex> {
         return position;
     }
 
+    public void setX (double x) {
+        position = new Point3D(x, position.getY(), position.getZ(), position.getW());
+    }
+
+    public void setY (double y) {
+        position = new Point3D(position.getX(), y, position.getZ(), position.getW());
+    }
+
+    public void setZ (double z) {
+        position = new Point3D(position.getX(), position.getY(), z, position.getW());
+    }
+
     public double getOne() {
         return one;
     }
@@ -71,6 +83,13 @@ public class Vertex implements Vectorizable<Vertex> {
         return vertex.getPosition().getZ();
     }
 
+    public double getX(Vertex vertex) {
+        return vertex.getPosition().getX();
+    }
+
+    public double getY(Vertex vertex) {
+        return vertex.getPosition().getY();
+    }
 
     public Vertex mul(Mat4 transMat) {
         return new Vertex(position.mul(transMat), color, textureCoordinates, normalVector, one);

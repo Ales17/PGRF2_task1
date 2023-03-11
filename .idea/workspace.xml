@@ -5,8 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6decd0e-5519-4a6a-b57b-9422abb34d9d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/model/Cuboid.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/c04_bacul_ales.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/c04_bacul_ales.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/control/Controller3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/Controller3D.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Cube.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Cube.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Pyramid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Pyramid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Vertex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Vertex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/render/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/Renderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shaders/Shader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shaders/Shader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/solid/Solid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solid/Solid.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,8 +25,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -97,7 +104,7 @@
       <workItem from="1678445628374" duration="1001000" />
       <workItem from="1678449037803" duration="135000" />
       <workItem from="1678449201849" duration="176000" />
-      <workItem from="1678449407647" duration="25345000" />
+      <workItem from="1678449407647" duration="39437000" />
     </task>
     <servers />
   </component>

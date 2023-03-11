@@ -1,9 +1,6 @@
 package control;
 
-import model.AxisList;
-import model.Cube;
-import model.Pyramid;
-import model.RotationAxis;
+import model.*;
 import raster.ImageBuffer;
 import raster.TriangleRasterizer;
 import raster.ZBuffer;
@@ -22,6 +19,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Controller3D implements Controller {
     private final Panel panel;
@@ -33,24 +32,10 @@ public class Controller3D implements Controller {
     Point2D prevPoint;
     int cuttingMode = 0;
     AxisList axisList = AxisList.X;
-
-    public void rotate(RotationAxis rotationAxis, double angle) {
-        // Create a rotation matrix around the specified axis and angle
-        Mat4 rotation = new Mat4Rot(angle, rotationAxis.getAxis());
-
-        // Apply the rotation to all solids in the scene
-        for (Solid solid : scene.getSolids()) {
-            solid.transform(rotation);
-        }
-    }
-
     boolean ortho = false;
-    Camera defaultCamera = new Camera()
-            .withPosition(new Vec3D(-0.1, -0.95, 2.2))
-            .withAzimuth(-5)
-            .withZenith(-1)
-            .withFirstPerson(true);
+    Camera defaultCamera = new Camera().withPosition(new Vec3D(-0.1, -0.95, 2.2)).withAzimuth(-5).withZenith(-1).withFirstPerson(true);
     Cube cube = new Cube();
+    Cuboid cuboid = new Cuboid();
     ArrowX arX = new ArrowX();
     ArrowY arY = new ArrowY();
     ArrowZ arZ = new ArrowZ();
@@ -79,11 +64,20 @@ public class Controller3D implements Controller {
 
     }
 
+    public void rotate(RotationAxis rotationAxis, double angle) {
+        // Create a rotation matrix around the specified axis and angle
+        Mat4 rotation = new Mat4Rot(angle, rotationAxis.getAxis());
+
+        // Apply the rotation to all solids in the renderer
+        for (Solid solid : scene.getSolids()) {
+            solid.transform(rotation);
+        }
+    }
+
     public void initObjects(ImageBuffer raster) {
         raster.setClearValue(new Col(0xff0000));
         ZBuffer = new ZBuffer(panel.getRaster());
-        projection = new Mat4PerspRH(Math.PI / 3,
-                panel.getHeight() / (float) panel.getWidth(), 0.1, 25);
+        projection = new Mat4PerspRH(Math.PI / 3, panel.getHeight() / (float) panel.getWidth(), 0.1, 25);
         scene = new Scene();
         triangleRasterizer = new TriangleRasterizer(ZBuffer/*, shader*/);
     }
@@ -117,7 +111,7 @@ public class Controller3D implements Controller {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                Mat4 model;
+
                 switch (e.getKeyCode()) {
                     //XYZ
                     case KeyEvent.VK_X -> {
@@ -157,45 +151,34 @@ public class Controller3D implements Controller {
                             projection = new Mat4OrthoRH(3, 2, 0.1, 10);
                             ortho = false;
                         } else {
-                            projection = new Mat4PerspRH(Math.PI / 3,
-                                    panel.getHeight() / (float) panel.getWidth(),
-                                    0.1,
-                                    25);
+                            projection = new Mat4PerspRH(Math.PI / 3, panel.getHeight() / (float) panel.getWidth(), 0.1, 25);
                             ortho = true;
                         }
                     }
                     case KeyEvent.VK_LEFT -> {
-                        switch (axisList) {
-                            case X -> {
-                                rotate(RotationAxis.X, -cameraRotationSpeed);
-                            }
-                            case Y -> {
-                                rotate(RotationAxis.Y, -cameraRotationSpeed);
-                            }
-                            case Z -> {
-                                rotate(RotationAxis.Z, -cameraRotationSpeed);
-                            }
-                        }
+                        rotate(-1);
 
                     }
                     case KeyEvent.VK_RIGHT -> {
-                        switch (axisList) {
-                            case X -> {
-                                rotate(RotationAxis.X, cameraRotationSpeed);
-                            }
-                            case Y -> {
-                                rotate(RotationAxis.Y, cameraRotationSpeed);
-                            }
-                            case Z -> {
-                                rotate(RotationAxis.Z, cameraRotationSpeed);
-                            }
-                        }
+                        rotate(1);
 
                     }
+                    case KeyEvent.VK_R -> {
+                        Timer t = new Timer();
+                        t.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+
+
+                                rotate(-1);
+                                System.out.println("ROT");
+                            }
+                        }, 1, 1000);
+
                     }
+                }
 
 
-                triangleRasterizer = new TriangleRasterizer(ZBuffer);
                 panel.clear();
                 redraw();
             }
@@ -204,7 +187,19 @@ public class Controller3D implements Controller {
 
     }
 
-
+    private void rotate(int rot) {
+        switch (axisList) {
+            case X -> {
+                rotate(RotationAxis.X, cameraRotationSpeed * rot);
+            }
+            case Y -> {
+                rotate(RotationAxis.Y, cameraRotationSpeed * rot);
+            }
+            case Z -> {
+                rotate(RotationAxis.Z, cameraRotationSpeed * rot);
+            }
+        }
+    }
 
     private void redraw() {
         width = panel.getRaster().getWidth();
@@ -216,10 +211,11 @@ public class Controller3D implements Controller {
         renderer.setProjection(projection);
         renderer.setView(camera.getViewMatrix());
         this.scene = new Scene();
-        scene.addSolid(cube);
         scene.addSolid(arX);
         scene.addSolid(arY);
         scene.addSolid(arZ);
+        scene.addSolid(cube);
+        scene.addSolid(cuboid);
         scene.addSolid(pyramid);
 
 
@@ -232,8 +228,7 @@ public class Controller3D implements Controller {
     public void resetScene() {
         // resetuje kameru a projekci
         camera = defaultCamera;
-        projection = new Mat4PerspRH(Math.PI / 3,
-                panel.getHeight() / (float) panel.getWidth(), 0.1, 25);
+        projection = new Mat4PerspRH(Math.PI / 3, panel.getHeight() / (float) panel.getWidth(), 0.1, 25);
         // resetuje režim střihu
         cuttingMode = 0;
         // resetuje osy a objekty

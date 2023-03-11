@@ -20,6 +20,8 @@ public abstract class Solid {
     public List<Vertex> getVertexBuffer() {
         return vertexBuffer;
     }
+
+
     public List<Part> getPartBuffer() {
         return partBuffer;
     }
