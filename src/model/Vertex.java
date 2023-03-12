@@ -32,7 +32,10 @@ public class Vertex implements Vectorizable<Vertex> {
     }
 
     public Vertex(Point3D position) {
-        //TODO implement
+        this.position = position;
+        this.color = new Col(0, 255, 150);
+        this.normalVector = new Vec3D(0, 0, 0);
+        this.textureCoordinates = new Vec2D(1, 1);
     }
     //// Gettery a settery
     public Col getColor() {
@@ -60,17 +63,6 @@ public class Vertex implements Vectorizable<Vertex> {
 
     public double getOne() {
         return one;
-    }
-
-    public Vec3D getNormalVector() {
-        return normalVector;
-    }
-    public Vec2D getTextureCoordinates() {
-        return textureCoordinates;
-    }
-
-    public void setTextureCoordinates(Vec2D textureCoordinates) {
-        this.textureCoordinates = textureCoordinates;
     }
 
 

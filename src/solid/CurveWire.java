@@ -6,45 +6,44 @@ import model.Vertex;
 import transforms.Cubic;
 import transforms.Point3D;
 
-public class CurveWire extends Solid{
-    public CurveWire(){
-        // řidící body
+public class CurveWire extends Solid {
+    public CurveWire() {
+        // řídící body
         Point3D points[] = new Point3D[4];
-        //-1 -1 -1
-        //1 1 -1
-        //1 -1 1
-        //-1 1 1
         points[0] = new Point3D(-1, -1, -1);
         points[1] = new Point3D(1, 1, -1);
         points[2] = new Point3D(1, -1, 1);
         points[3] = new Point3D(-1, 1, 1);
 
+
         // výpočet bodů
-        // matice Ferguson - bázová...,
-        // pošlu pointy
         Cubic cubic = new Cubic(Cubic.FERGUSON, points);
-        // výpočet bodů
-        // nultý můžeme vygenerovat před forem, poslat do VB, začít od 1, když v první iteraci budou 2 vertexy
-        Vertex v = new Vertex(cubic.compute(0));
+
+        // přidání nultého bodu
+        Vertex v = new Vertex(pointToVertex(cubic.compute(0)));
         getVertexBuffer().add(v);
-for(int i = 0; i < 100; i++){
-    double t = i / 100.0;
 
-    v = new Vertex(cubic.compute(t));
-    getVertexBuffer().add(v);
-    getIndexBuffer().add(getVertexBuffer().size() - 2);
-    getIndexBuffer().add(getVertexBuffer().size() - 1);
+        // přidání bodů na křivce
+        for (int i = 0; i < 101; i++) {
+            double t = i / 100.0;
 
-}
+            v = new Vertex(pointToVertex(cubic.compute(t)));
+            getVertexBuffer().add(v);
+            getIndexBuffer().add(getVertexBuffer().size() - 2);
+            getIndexBuffer().add(getVertexBuffer().size() - 1);
+        }
 
-//TODO part buffer
+        // line strip index buffer
+        for (int i = 0; i < 100; i++) {
+            getIndexBuffer().add(i);
+        }
 
-
-
+        // části
+        getPartBuffer().add(new Part(TopologyType.LINE_STRIP, 0, 100));
     }
 
-    // cubic compute očekává double od 0 do 1, potřebujeme převést
-    // compute vrací Point3D, což je pozice, tu pošleme do vertexBufferu
-    // vertex neumí Point3D, musíme převést
-
+    private Vertex pointToVertex(Point3D compute) {
+        // Převedeme bod na vertex
+        return new Vertex(compute);
+    }
 }

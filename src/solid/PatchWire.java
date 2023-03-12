@@ -5,8 +5,8 @@ import transforms.Point3D;
 
 public class PatchWire extends Solid {
     public PatchWire() {
-        //TODO ridici body
-        // 16 řídících bodů
+
+        // 16 řidících bodů
         Point3D points[] = new Point3D[16];
         points[0] = new Point3D(-1, -1, -1);
         points[1] = new Point3D(1, 1, -1);

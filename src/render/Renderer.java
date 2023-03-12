@@ -76,9 +76,21 @@ public class Renderer {
                         start++;
                     }
                 }
-                case TRIANGLE_STRIP -> {
-                    System.out.println("Triangle strip");
+                case LINE_STRIP -> {
+                    start = part.getStartIndex();
+                    int endIndex = start + part.getCount() - 1;
+                    for (int i = start; i < endIndex; i++) {
+                        int indexA = i;
+                        int indexB = i + 1;
+                        Vertex a = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexA));
+                        Vertex b = solid.getVertexBuffer().get(solid.getIndexBuffer().get(indexB));
+                        a = a.mul(trans);
+                        b = b.mul(trans);
+                        triangleRasterizer.prepareLine(a, b);
+                    }
                 }
+
+
             }
 
         }

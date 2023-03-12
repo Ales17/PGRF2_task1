@@ -5,16 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6decd0e-5519-4a6a-b57b-9422abb34d9d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/model/Cuboid.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Pentagon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/raster/VertexBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/solid/Carpet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/solid/SpiralWire.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/c04_bacul_ales.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/c04_bacul_ales.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/control/Controller3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/Controller3D.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Cube.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Cube.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Cuboid.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Pyramid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Pyramid.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Vertex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Vertex.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/render/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/Renderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shaders/Shader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shaders/Shader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solid/Solid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solid/Solid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/solid/CurveWire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solid/CurveWire.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/solid/PatchWire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solid/PatchWire.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,23 +46,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Ales/Documents/Skola_UHK/inspirace/petrjarosuhk/src/renderer/Renderer.java",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "two.files.diff.last.used.file": "C:/Users/Ales/Documents/Skola_UHK/inspirace/petrjarosuhk/src/renderer/Renderer.java",
-    "two.files.diff.last.used.folder": "C:/Users/Ales/Documents/Skola_UHK/inspirace/petrjarosuhk/src",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ales/Documents/Skola_UHK/inspirace/petrjarosuhk/src/renderer/Renderer.java&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/Ales/Documents/Skola_UHK/inspirace/petrjarosuhk/src/renderer/Renderer.java&quot;,
+    &quot;two.files.diff.last.used.folder&quot;: &quot;C:/Users/Ales/Documents/Skola_UHK/inspirace/petrjarosuhk/src&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Ales\Desktop\c04_bacul_ales\src" />
@@ -104,7 +108,9 @@
       <workItem from="1678445628374" duration="1001000" />
       <workItem from="1678449037803" duration="135000" />
       <workItem from="1678449201849" duration="176000" />
-      <workItem from="1678449407647" duration="39437000" />
+      <workItem from="1678449407647" duration="39986000" />
+      <workItem from="1678529705929" duration="14373000" />
+      <workItem from="1678607137091" duration="8672000" />
     </task>
     <servers />
   </component>
