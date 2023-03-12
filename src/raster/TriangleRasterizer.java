@@ -1,9 +1,9 @@
 package raster;
 
 import model.Vertex;
-import shaders.Shader;
-import shaders.ShaderConstantColor;
-import shaders.ShaderInterpolatedColor;
+import shaders.ShaderFunctional;
+import shaders.ShaderConstant;
+import shaders.ShaderInterpolated;
 import transforms.Point3D;
 import transforms.Vec3D;
 import utils.Lerp;
@@ -17,8 +17,9 @@ public class TriangleRasterizer {
     private final int width;
     private final int height;
     private final Lerp<Vertex> lerp;
-    private ShaderConstantColor shaderConst = new ShaderConstantColor();
-    private ShaderInterpolatedColor shaderInterpolated = new ShaderInterpolatedColor();
+    private ShaderConstant shaderConst = new ShaderConstant();
+    private ShaderInterpolated shaderInterpolated = new ShaderInterpolated();
+
 
 
     public TriangleRasterizer(ZBuffer zBuffer) {
@@ -70,7 +71,7 @@ public class TriangleRasterizer {
             for (int i = (int) a.getPosition().getX(); i < b.getPosition().getX(); i++) {
                 double t = (i - a.getPosition().getX()) / (b.getPosition().getX() - a.getPosition().getX());
                 Vertex v = lerp.lerp(a, b, t);
-                zBuffer.drawWithZTest((int) v.getPosition().getX(), (int) v.getPosition().getY(), v.getPosition().getZ(), a.getColor());
+                zBuffer.drawWithZTest((int) v.getPosition().getX(), (int) v.getPosition().getY(), v.getPosition().getZ(), shaderInterpolated.shade(v) /*a.getColor()*/);
             }
 
         } else if (b.getPosition().getX() == a.getPosition().getX() || Math.abs(dy) > Math.abs(dx)) {
@@ -91,7 +92,7 @@ public class TriangleRasterizer {
     public void prepare(Vertex a, Vertex b, Vertex c) {
 
 
-        if (fastClip(a.getPosition()) || fastClip(b.getPosition()) || fastClip(c.getPosition())) ;
+        if (fastClip(a.getPosition()) || fastClip(b.getPosition()) || fastClip(c.getPosition())) return;
 
         if (b.getPosition().getZ() < 0) {
             double s1 = (0 - a.getPosition().getZ()) / (b.getPosition().getZ() - b.getPosition().getZ());
@@ -184,10 +185,6 @@ public class TriangleRasterizer {
         return p.getW() < p.getZ() || p.getZ() < 0;
     }
 
-    public void setShader(Shader shader) {
-        // set shaderConst or ShaderInterpolated both implement shader interface
-        //this.shader = shader;
 
-    }
 }
 

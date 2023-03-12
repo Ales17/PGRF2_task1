@@ -6,6 +6,6 @@ import transforms.Col;
 // Poslat interpolovaný nebo konstantní
 // Pro každý pixel volám shade, který mi vrátí barvu
 @FunctionalInterface
-public interface Shader {
+public interface ShaderFunctional {
     Col shade(Vertex vertex);
 }

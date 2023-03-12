@@ -67,10 +67,6 @@ public class Vertex implements Vectorizable<Vertex> {
 
 
 
-    public void setNormalVector(Vec3D normalVector) {
-        this.normalVector = normalVector;
-    }
-
     public double getZ(Vertex vertex) {
         return vertex.getPosition().getZ();
     }

@@ -6,8 +6,8 @@ import raster.TriangleRasterizer;
 import raster.ZBuffer;
 import render.Renderer;
 import render.Scene;
-import shaders.Shader;
-import shaders.ShaderConstantColor;
+import shaders.ShaderFunctional;
+import shaders.ShaderConstant;
 import solid.*;
 import transforms.*;
 import view.Panel;
@@ -17,11 +17,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static java.awt.event.KeyEvent.VK_M;
-
 public class Controller3D implements Controller {
     private final Panel panel;
-    ShaderConstantColor shaderConst;
+    ShaderConstant shaderConst;
     double cameraSpeed = 0.1;
     double cameraRotationSpeed = 0.1;
     Renderer renderer;
@@ -60,11 +58,11 @@ public class Controller3D implements Controller {
         initListeners(panel);
         redraw();
 
-        Shader greenShader = v -> {
+        ShaderFunctional greenShaderFunctional = v -> {
             return new Col(0x00ff00);
         };
         Col color = new Col(0x00ff00);
-        Shader colorShader = v -> new Col(color);
+        ShaderFunctional colorShaderFunctional = v -> new Col(color);
 
     }
 
