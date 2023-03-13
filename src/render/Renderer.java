@@ -10,12 +10,13 @@ import transforms.Mat4Identity;
 
 public class Renderer {
     private TriangleRasterizer triangleRasterizer;
-    boolean wireframe = false;
+    private boolean wireframe;
     Mat4 viewMatrix = new Mat4Identity();
     Mat4 projection = new Mat4Identity();
 
     public Renderer(TriangleRasterizer triangleRasterizer) {
         this.triangleRasterizer = triangleRasterizer;
+        this.wireframe = true;
     }
 
 
@@ -54,17 +55,22 @@ public class Renderer {
                         b = b.mul(trans);
                         c = c.mul(trans);
                         if (wireframe) {
-                            triangleRasterizer.prepareLine(a, b);
-                            triangleRasterizer.prepareLine(b, c);
-                            triangleRasterizer.prepareLine(c, a);
+                            triangleRasterizer.prepareWire(a, b);
+                            triangleRasterizer.prepareWire(b, c);
+                            triangleRasterizer.prepareWire(c, a);
+                            System.out.println("Ahoj");
                         } else {
+
                             triangleRasterizer.prepare(
+
                                     new Vertex(a.mul(1 / a.getOne())),
                                     new Vertex(b.mul(1 / b.getOne())),
                                     new Vertex(c.mul(1 / c.getOne())));
 
-                            start += 3;
+
                         }
+                        start += 3;
+
                     }
                 }
                 case POINT -> {
@@ -110,7 +116,9 @@ public class Renderer {
     public void setWireframe(boolean wireframe) {
         this.wireframe = wireframe;
     }
-
+    public boolean getWireframe() {
+        return wireframe;
+    }
     public boolean isWireframe() {
         return wireframe;
     }

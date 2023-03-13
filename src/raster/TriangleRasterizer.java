@@ -57,8 +57,21 @@ public class TriangleRasterizer {
         b.setPosition(newP2);
         rasterizeLine(a, b);
     }
-
-    private void rasterizeLine(Vertex a, Vertex b) {
+    public void prepareWire(Vertex a, Vertex b) {
+        if (fastClip(a.getPosition()) || fastClip(b.getPosition())) ;
+        Optional<Vertex> dehomA = a.dehom();
+        Optional<Vertex> dehomB = b.dehom();
+        if (dehomA.isEmpty() || dehomB.isEmpty())
+            return;
+        Vec3D newP1 = transform(dehomA.get().getPosition());
+        Vec3D newP2 = transform(dehomB.get().getPosition());
+        Vertex tempA = new Vertex(a);
+        Vertex tempB = new Vertex(b);
+        tempA.setPosition(newP1);
+        tempB.setPosition(newP2);
+        rasterizeLine(tempA, tempB);
+    }
+    public void rasterizeLine(Vertex a, Vertex b) {
         double dx = b.getPosition().getX() - a.getPosition().getX();
         double dy = b.getPosition().getY() - a.getPosition().getY();
         Vertex temp;

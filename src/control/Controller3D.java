@@ -164,10 +164,15 @@ public class Controller3D implements Controller {
                         rotate(1);
 
                     }
-
-
+                    case KeyEvent.VK_E -> {
+                        // switch between renderer wireframe
+                        renderer.setWireframe(!renderer.getWireframe());
+                        System.out.println(renderer.getWireframe());
+                        // redraw
+                        redraw();
+                    }
                 }
-                System.out.println("Camera: " + camera);
+
 
                 panel.clear();
                 redraw();
@@ -199,7 +204,7 @@ public class Controller3D implements Controller {
         renderer.setProjection(projection);
         renderer.setView(camera.getViewMatrix());
         this.scene = new Scene();
-         scene.addSolid(arX);
+        scene.addSolid(arX);
         scene.addSolid(arY);
         scene.addSolid(arZ);
         scene.addSolid(cube);
@@ -207,6 +212,7 @@ public class Controller3D implements Controller {
         scene.addSolid(spiralWire);
 
         renderer.render(scene);
+
         panel.repaint();
     }
 

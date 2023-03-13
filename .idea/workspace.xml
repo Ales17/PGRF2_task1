@@ -6,15 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c6decd0e-5519-4a6a-b57b-9422abb34d9d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/c04_bacul_ales.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/c04_bacul_ales.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/control/Controller3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/Controller3D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Cube.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Cube.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Vertex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Vertex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Axis.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raster/TriangleRasterizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/TriangleRasterizer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/render/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/Renderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shaders/Shader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shaders/ShaderFunctional.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shaders/ShaderConstantColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shaders/ShaderConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shaders/ShaderInterpolatedColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shaders/ShaderInterpolated.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +102,8 @@
       <workItem from="1678449407647" duration="39986000" />
       <workItem from="1678529705929" duration="14373000" />
       <workItem from="1678607137091" duration="15590000" />
-      <workItem from="1678645664218" duration="1856000" />
+      <workItem from="1678645664218" duration="3948000" />
+      <workItem from="1678691827551" duration="2112000" />
     </task>
     <servers />
   </component>
