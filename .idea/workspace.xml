@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6decd0e-5519-4a6a-b57b-9422abb34d9d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/model/SolidList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/c04_bacul_ales.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/c04_bacul_ales.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/control/Controller3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/Controller3D.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Panel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Window.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +21,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -100,7 +104,8 @@
       <workItem from="1678529705929" duration="14373000" />
       <workItem from="1678607137091" duration="15590000" />
       <workItem from="1678645664218" duration="3948000" />
-      <workItem from="1678691827551" duration="2838000" />
+      <workItem from="1678691827551" duration="6725000" />
+      <workItem from="1678726417626" duration="1337000" />
     </task>
     <servers />
   </component>

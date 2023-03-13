@@ -36,7 +36,7 @@ public class Controller3D implements Controller {
             .withRadius(1.00);
     //Camera().withPosition(new Vec3D(-0.1, -0.4, 2.7)).withAzimuth(-5).withZenith(-1).withFirstPerson(true);
     Cube cube = new Cube();
-     ArrowX arX = new ArrowX();
+    ArrowX arX = new ArrowX();
     ArrowY arY = new ArrowY();
     ArrowZ arZ = new ArrowZ();
     Pyramid pyramid = new Pyramid();
@@ -55,7 +55,7 @@ public class Controller3D implements Controller {
 
     public Controller3D(Panel panel) {
         this.panel = panel;
-        // Měníme shader pomocí setteru
+        // Changing shader with setter
         //triangleRasterizer.setShader(new ShaderInterpolatedColor());
         initObjects(panel.getRaster());
         initListeners(panel);
@@ -69,12 +69,18 @@ public class Controller3D implements Controller {
 
     }
 
-    public void rotate(RotationAxis rotationAxis, double angle) {
+    public void rotateAll(RotationAxis rotationAxis, double angle) {
         Mat4 rotation = new Mat4Rot(angle, rotationAxis.getAxis());
         for (Solid solid : scene.getSolids()) {
-            solid.transform(rotation);
+            //solid.transform(rotation);
+            rotateSolid(solid, rotation);
         }
     }
+
+    public void rotateSolid(Solid solid, Mat4 rotation) {
+        solid.transform(rotation);
+    }
+
 
     public void initObjects(ImageBuffer raster) {
         raster.setClearValue(new Col(0xff0000));
@@ -161,15 +167,17 @@ public class Controller3D implements Controller {
                     }
                     case KeyEvent.VK_LEFT -> {
                         rotate(-1);
-
                     }
                     case KeyEvent.VK_RIGHT -> {
                         rotate(1);
-
                     }
                     case KeyEvent.VK_E -> {
               isWireframeMode = !isWireframeMode;
                     }
+                    case KeyEvent.VK_1 -> {
+
+                    }
+
                 }
 
 
@@ -184,13 +192,13 @@ public class Controller3D implements Controller {
     private void rotate(int rot) {
         switch (axisList) {
             case X -> {
-                rotate(RotationAxis.X, cameraRotationSpeed * rot);
+                rotateAll(RotationAxis.X, cameraRotationSpeed * rot);
             }
             case Y -> {
-                rotate(RotationAxis.Y, cameraRotationSpeed * rot);
+                rotateAll(RotationAxis.Y, cameraRotationSpeed * rot);
             }
             case Z -> {
-                rotate(RotationAxis.Z, cameraRotationSpeed * rot);
+                rotateAll(RotationAxis.Z, cameraRotationSpeed * rot);
             }
         }
     }
