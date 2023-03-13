@@ -1,13 +1,13 @@
-package solid;
+package model;
 
 import model.Part;
 import model.TopologyType;
 import model.Vertex;
-import transforms.Cubic;
+import solid.Solid;
 import transforms.Point3D;
 
-public class SpiralWire extends Solid {
-    public SpiralWire() {
+public class Spiral extends Solid {
+    public Spiral() {
         // parametry spiraly
         double a = 0.3;
         double b = 0.3;

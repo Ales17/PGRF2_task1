@@ -126,4 +126,5 @@ public class Renderer {
         scene.getSolids().forEach(this::render);
     }
 
+
 }

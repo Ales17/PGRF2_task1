@@ -1,5 +1,8 @@
 package view;
 
+import control.Controller3D;
+import render.Renderer;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,16 +10,22 @@ public class Window extends JFrame {
 
     private final Panel panel;
     private final JLabel label;
-    private String rotatedObject;
+
+    Renderer renderer;
 
     public Window() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("UHK FIM PGRF : " + this.getClass().getName());
+        setTitle("UHK FIM PGRF");
 
         panel = new Panel();
-        label = new JLabel("Keyboard controls in README" + rotatedObject);
-        add(panel, BorderLayout.CENTER);
+        label = new JLabel("Keyboard controls in README");
+
+
+
+        add(panel, "Center");
+
         add(label, "North");
+
         setVisible(true);
         pack();
 

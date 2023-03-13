@@ -19,7 +19,5 @@ public class Scene {
         this.solids.add(solid);
     }
 
-    public void setTransform(Mat4 model) {
-        solids.forEach(solid -> solid.setModelMatrix(model));
-    }
+
     }
