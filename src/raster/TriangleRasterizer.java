@@ -1,7 +1,6 @@
 package raster;
 
 import model.Vertex;
-import shaders.ShaderFunctional;
 import shaders.ShaderConstant;
 import shaders.ShaderInterpolated;
 import transforms.Point3D;
@@ -71,6 +70,7 @@ public class TriangleRasterizer {
         tempB.setPosition(newP2);
         rasterizeLine(tempA, tempB);
     }
+
     public void rasterizeLine(Vertex a, Vertex b) {
         double dx = b.getPosition().getX() - a.getPosition().getX();
         double dy = b.getPosition().getY() - a.getPosition().getY();

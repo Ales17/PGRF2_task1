@@ -22,12 +22,7 @@ public class ImageBuffer implements Raster<Col> {
         graphics.drawImage(img, 0, 0, null);
     }
 
-    public void draw(ImageBuffer raster) {
-        Graphics graphics = getGraphics();
-        graphics.setColor(new Color(color.getRGB()));
-        graphics.fillRect(0, 0, getWidth(), getHeight());
-        graphics.drawImage(raster.img, 0, 0, null);
-    }
+
 
     public Graphics getGraphics() {
         return img.getGraphics();

@@ -12,25 +12,28 @@ import java.util.*;
 
 public class Controller3D implements Controller {
     private final Panel panel;
+    Renderer renderer;
+    // Settings - default values
+    final Camera defaultCamera = new Camera().withFirstPerson(true).withPosition(new Vec3D(0.66, -1.70, 5.40)).withAzimuth(-5.00).withZenith(-1.00).withRadius(1.00);
+    private Camera camera = defaultCamera;
+    double CAM_SPEED = 0.1;
+
+    RotationAxis rotationAxis = RotationAxis.X;
+    int selectedObjectIndex = 0;
     boolean isSceneRotated = true;
-    double cameraSpeed = 0.1;
     boolean orthogonalProjection = false;
     boolean isWireframeMode = false;
-    Renderer renderer;
     Mat4 projection = new Mat4Identity();
+    // Objects
     ArrowX arX = new ArrowX();
     ArrowY arY = new ArrowY();
     ArrowZ arZ = new ArrowZ();
     Cube cube = new Cube();
     Pyramid pyramid = new Pyramid();
     Spiral spiral = new Spiral();
-    int selectedObjectIndex = 0;
     Point2D prevPoint;
-    AxisList selectedAxis = AxisList.X;
-    final Camera defaultCamera = new Camera().withFirstPerson(true).withPosition(new Vec3D(0.66, -1.70, 5.40)).withAzimuth(-5.00).withZenith(-1.00).withRadius(1.00);
-    private List<Solid> objects = new ArrayList<>();
+    private List<Solid> solidList = new ArrayList<>();
     private int width, height;
-    private Camera camera = defaultCamera;
     private ZBuffer ZBuffer;
     private Scene scene;
     private TriangleRasterizer triangleRasterizer;
@@ -44,24 +47,20 @@ public class Controller3D implements Controller {
     }
 
     private void toggleObject() {
-        selectedObjectIndex = (selectedObjectIndex >= objects.size() - 1) ? 0 : selectedObjectIndex + 1;
+        selectedObjectIndex = (selectedObjectIndex >= solidList.size() - 1) ? 0 : selectedObjectIndex + 1;
     }
 
     private void prepareRotation(boolean negativeDirection, int selectedObjectIndex) {
         int dir = negativeDirection ? -1 : 1;
-        Solid selectedObject = objects.get(selectedObjectIndex);
         RotationAxis axis = null;
-        switch (selectedAxis) {
+        switch (rotationAxis) {
             case X -> axis = RotationAxis.X;
             case Y -> axis = RotationAxis.Y;
             case Z -> axis = RotationAxis.Z;
         }
-        if (isSceneRotated) {
-            rotate(axis, cameraSpeed * dir, null);
-        } else {
-            rotate(axis, cameraSpeed * dir, selectedObject);
-        }
+        rotate(axis, CAM_SPEED * dir, isSceneRotated ? null : solidList.get(selectedObjectIndex));
     }
+
 
 
     public void rotate(RotationAxis rotationAxis, double angle, Solid rotatedSolid) {
@@ -118,17 +117,17 @@ public class Controller3D implements Controller {
                 switch (e.getKeyCode()) {
                     // Todo use gui for some of these
                     //XYZ
-                    case KeyEvent.VK_X -> selectedAxis = AxisList.X;
-                    case KeyEvent.VK_Y -> selectedAxis = AxisList.Y;
-                    case KeyEvent.VK_Z -> selectedAxis = AxisList.Z;
+                    case KeyEvent.VK_X -> rotationAxis = RotationAxis.X;
+                    case KeyEvent.VK_Y -> rotationAxis = RotationAxis.Y;
+                    case KeyEvent.VK_Z -> rotationAxis = RotationAxis.Z;
                     // Cam movement WSAD
-                    case KeyEvent.VK_W -> camera = camera.forward(cameraSpeed);
-                    case KeyEvent.VK_S -> camera = camera.backward(cameraSpeed);
-                    case KeyEvent.VK_A -> camera = camera.left(cameraSpeed);
-                    case KeyEvent.VK_D -> camera = camera.right(cameraSpeed);
+                    case KeyEvent.VK_W -> camera = camera.forward(CAM_SPEED);
+                    case KeyEvent.VK_S -> camera = camera.backward(CAM_SPEED);
+                    case KeyEvent.VK_A -> camera = camera.left(CAM_SPEED);
+                    case KeyEvent.VK_D -> camera = camera.right(CAM_SPEED);
                     // Cam UP, DOWN
-                    case KeyEvent.VK_UP -> camera = camera.up(cameraSpeed);
-                    case KeyEvent.VK_DOWN -> camera = camera.down(cameraSpeed);
+                    case KeyEvent.VK_UP -> camera = camera.up(CAM_SPEED);
+                    case KeyEvent.VK_DOWN -> camera = camera.down(CAM_SPEED);
                     //
                     case KeyEvent.VK_C -> resetScene();
                     case KeyEvent.VK_LEFT -> prepareRotation(true, selectedObjectIndex);
@@ -167,9 +166,9 @@ public class Controller3D implements Controller {
         scene.addSolid(cube);
         scene.addSolid(pyramid);
         scene.addSolid(spiral);
-        objects.add(cube);
-        objects.add(pyramid);
-        objects.add(spiral);
+        solidList.add(cube);
+        solidList.add(pyramid);
+        solidList.add(spiral);
         renderer.render(scene);
         panel.repaint();
         System.out.println(scene.getSolids());
@@ -179,7 +178,7 @@ public class Controller3D implements Controller {
     public void resetScene() {
         camera = defaultCamera;
         projection = new Mat4PerspRH(Math.PI / 3, panel.getHeight() / (float) panel.getWidth(), 0.1, 25);
-        selectedAxis = AxisList.X;
+        rotationAxis = RotationAxis.X;
         cube = new Cube();
         arX = new ArrowX();
         arY = new ArrowY();

@@ -11,7 +11,7 @@ public class Cube extends Solid {
         double yMove = 0.2;
         double zMove = 0.2;
 
-        // Vrcholy krychle
+
         Vertex v1 = new Vertex(0 + xMove, 0 + yMove, 0 + zMove, new Col(0x333aaa));
         Vertex v2 = new Vertex(1 + xMove, 0 + yMove, 0 + zMove, new Col(0x333aaa));
         Vertex v3 = new Vertex(1 + xMove, 1 + yMove, 0 + zMove, new Col(0x333aaa));
@@ -21,7 +21,7 @@ public class Cube extends Solid {
         Vertex v7 = new Vertex(1 + xMove, 1 + yMove, 1 + zMove, new Col(0x333aaa));
         Vertex v8 = new Vertex(0 + xMove, 1 + yMove, 1 + zMove, new Col(0x333aaa));
 
-        // Přidání vrcholů do bufferu vrcholů
+
         getVertexBuffer().add(v1);
         getVertexBuffer().add(v2);
         getVertexBuffer().add(v3);
@@ -31,7 +31,7 @@ public class Cube extends Solid {
         getVertexBuffer().add(v7);
         getVertexBuffer().add(v8);
 
-        // Přidání indexů pro vytvoření stěn krychle
+
         // FRONT
         getIndexBuffer().add(0);
         getIndexBuffer().add(1);

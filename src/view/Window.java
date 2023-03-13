@@ -11,7 +11,6 @@ public class Window extends JFrame {
     private final Panel panel;
     private final JLabel label;
 
-    Renderer renderer;
 
     public Window() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
