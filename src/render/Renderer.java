@@ -58,7 +58,6 @@ public class Renderer {
                             triangleRasterizer.prepareWire(a, b);
                             triangleRasterizer.prepareWire(b, c);
                             triangleRasterizer.prepareWire(c, a);
-                            System.out.println("Ahoj");
                         } else {
 
                             triangleRasterizer.prepare(

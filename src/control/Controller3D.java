@@ -24,6 +24,7 @@ public class Controller3D implements Controller {
     double cameraRotationSpeed = 0.1;
     Renderer renderer;
     Mat4 projection = new Mat4Identity();
+
     Point2D prevPoint;
     AxisList axisList = AxisList.X;
     boolean ortho = false;
@@ -41,6 +42,8 @@ public class Controller3D implements Controller {
     Pyramid pyramid = new Pyramid();
     CurveWire curveWire = new CurveWire();
     SpiralWire spiralWire = new SpiralWire();
+
+    boolean isWireframeMode = false;
 
     private int width, height;
     private Camera camera = defaultCamera;
@@ -165,11 +168,7 @@ public class Controller3D implements Controller {
 
                     }
                     case KeyEvent.VK_E -> {
-                        // switch between renderer wireframe
-                        renderer.setWireframe(!renderer.getWireframe());
-                        System.out.println(renderer.getWireframe());
-                        // redraw
-                        redraw();
+              isWireframeMode = !isWireframeMode;
                     }
                 }
 
@@ -201,6 +200,7 @@ public class Controller3D implements Controller {
         height = panel.getRaster().getHeight();
         triangleRasterizer.getzBuffer().getDepthBuffer().clear();
         renderer = new Renderer(triangleRasterizer);
+        renderer.setWireframe(isWireframeMode);
         renderer.setProjection(projection);
         renderer.setView(camera.getViewMatrix());
         this.scene = new Scene();
@@ -232,6 +232,7 @@ public class Controller3D implements Controller {
         spiralWire = new SpiralWire();
         // resetuje renderer a scénu
         renderer = new Renderer(triangleRasterizer);
+        renderer.setWireframe(isWireframeMode);
         scene = new Scene();
         // resetuje Z-buffer
         ZBuffer.getDepthBuffer().clear();
