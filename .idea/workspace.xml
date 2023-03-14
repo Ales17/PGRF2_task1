@@ -7,8 +7,6 @@
     <list default="true" id="c6decd0e-5519-4a6a-b57b-9422abb34d9d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/control/Controller3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/Controller3D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Vertex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Vertex.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raster/TriangleRasterizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/TriangleRasterizer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +102,7 @@
       <workItem from="1678645664218" duration="3948000" />
       <workItem from="1678691827551" duration="6725000" />
       <workItem from="1678726417626" duration="14039000" />
-      <workItem from="1678775543677" duration="7144000" />
+      <workItem from="1678775543677" duration="10021000" />
     </task>
     <servers />
   </component>

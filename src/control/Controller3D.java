@@ -18,7 +18,7 @@ public class Controller3D implements Controller {
     final Camera defaultCamera = new Camera().withFirstPerson(true).withPosition(new Vec3D(0.66, -1.70, 5.40)).withAzimuth(-5.00).withZenith(-1.00).withRadius(1.00);
     private final Panel panel;
     JCheckBox checkBoxWireframe = new JCheckBox("Wireframe");
-    JCheckBox checkBoxOrthogonal = new JCheckBox("Orthogonal");
+    JCheckBox checkBoxRot = new JCheckBox("Rotate scene");
     JPanel controlPanel = new JPanel();
     JRadioButton radioX = new JRadioButton("X");
     JRadioButton radioY = new JRadioButton("Y");
@@ -26,15 +26,15 @@ public class Controller3D implements Controller {
     Renderer renderer;
     double CAM_SPEED = 0.1;
     RotationAxis rotationAxis = RotationAxis.X;
-    int selectedObjectIndex = 0;
-    boolean isSceneRotated = true;
+    int selectedObjectIndex = 3; // 0, 1, 2 are arrows - not allowed to rotate
+    boolean isSceneRotated = false;
     boolean orthogonalProjection = false;
     boolean isWireframeMode = false;
     Mat4 projection = new Mat4Identity();
     // Objects
-    ArrowX arX = new ArrowX();
-    ArrowY arY = new ArrowY();
-    ArrowZ arZ = new ArrowZ();
+      ArrowX arX = new ArrowX();
+      ArrowY arY = new ArrowY();
+      ArrowZ arZ = new ArrowZ();
     Cube cube = new Cube();
     Pyramid pyramid = new Pyramid();
     Spiral spiral = new Spiral();
@@ -56,7 +56,9 @@ public class Controller3D implements Controller {
     }
 
     private void toggleObject() {
-        selectedObjectIndex = (selectedObjectIndex >= rotateList.size() - 1) ? 0 : selectedObjectIndex + 1;
+        selectedObjectIndex = (selectedObjectIndex >= scene.getSolids().size() - 1) ? 3 : selectedObjectIndex + 1;
+
+
     }
 
     private void prepareRotation(boolean negativeDirection, int selectedObjectIndex) {
@@ -67,7 +69,8 @@ public class Controller3D implements Controller {
             case Y -> axis = RotationAxis.Y;
             case Z -> axis = RotationAxis.Z;
         }
-        rotate(axis, CAM_SPEED * dir, isSceneRotated ? null : rotateList.get(selectedObjectIndex));
+
+        rotate(axis, CAM_SPEED * dir, isSceneRotated ? null : scene.getSolids().get(selectedObjectIndex));
     }
 
 
@@ -82,11 +85,10 @@ public class Controller3D implements Controller {
         }
     }
 
+
     public void rotateSolid(Solid solid, Mat4 rotation) {
         solid.transform(rotation);
     }
-
-
     public void initObjects(ImageBuffer raster) {
         raster.setClearValue(new Col(0xff0000));
         ZBuffer = new ZBuffer(panel.getRaster());
@@ -123,8 +125,6 @@ public class Controller3D implements Controller {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
-                    // Todo use gui for some of these
-
                     // Cam movement WSAD
                     case KeyEvent.VK_W -> camera = camera.forward(CAM_SPEED);
                     case KeyEvent.VK_S -> camera = camera.backward(CAM_SPEED);
@@ -137,8 +137,7 @@ public class Controller3D implements Controller {
                     case KeyEvent.VK_C -> resetScene();
                     case KeyEvent.VK_NUMPAD2 -> prepareRotation(true, selectedObjectIndex);
                     case KeyEvent.VK_NUMPAD8 -> prepareRotation(false, selectedObjectIndex);
-                    case KeyEvent.VK_G -> isSceneRotated = !isSceneRotated;
-                    case KeyEvent.VK_H -> toggleObject();
+                    case KeyEvent.VK_T -> toggleObject();
                     case KeyEvent.VK_O -> {
                         if (orthogonalProjection) {
                             projection = new Mat4OrthoRH(3, 2, 0.1, 10);
@@ -155,6 +154,12 @@ public class Controller3D implements Controller {
         });
 
         checkBoxWireframe.addActionListener(e -> handleAction(!isWireframeMode, rotationAxis));
+        checkBoxRot.addActionListener(e -> {
+            handleAction(isWireframeMode, rotationAxis);
+            isSceneRotated = !isSceneRotated;
+
+        });
+
         radioX.addActionListener(e -> handleAction(isWireframeMode, RotationAxis.X));
         radioY.addActionListener(e -> handleAction(isWireframeMode, RotationAxis.Y));
         radioZ.addActionListener(e -> handleAction(isWireframeMode, RotationAxis.Z));
@@ -171,7 +176,7 @@ public class Controller3D implements Controller {
     }
 
     private void redraw() {
-        controlPanel.add(checkBoxOrthogonal);
+        controlPanel.add(checkBoxRot);
         controlPanel.add(checkBoxWireframe);
 
         panel.add(controlPanel);
@@ -198,9 +203,7 @@ public class Controller3D implements Controller {
         scene.addSolid(cube);
         scene.addSolid(pyramid);
         scene.addSolid(spiral);
-        rotateList.add(cube);
-        rotateList.add(pyramid);
-        rotateList.add(spiral);
+        System.out.println(scene.getSolids());
         renderer.render(scene);
         panel.repaint();
     }
