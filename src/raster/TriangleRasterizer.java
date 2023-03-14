@@ -105,8 +105,8 @@ public class TriangleRasterizer {
     public void prepare(Vertex a, Vertex b, Vertex c) {
 
 
-        if (fastClip(a.getPosition()) || fastClip(b.getPosition()) || fastClip(c.getPosition())) return;
-
+        //if (fastClip(a.getPosition()) || fastClip(b.getPosition()) || fastClip(c.getPosition())) return;
+        if (isOutside(a,b,c)) return;
         if (b.getPosition().getZ() < 0) {
             double s1 = (0 - a.getPosition().getZ()) / (b.getPosition().getZ() - b.getPosition().getZ());
             Vertex ab = lerp.lerp(b, a, s1);
@@ -198,6 +198,13 @@ public class TriangleRasterizer {
         return p.getW() < p.getZ() || p.getZ() < 0;
     }
 
-
+    private boolean isOutside(Vertex a, Vertex b, Vertex c) {
+        return (a.getX() > a.getW() && b.getX() > b.getW() && c.getX() > c.getW()) ||
+                (a.getX() < -a.getW() && b.getX() < -b.getW() && c.getX() < -c.getW()) ||
+                (a.getY() > a.getW() && b.getY() > b.getW() && c.getY() > c.getW()) ||
+                (a.getY() < -a.getW() && b.getY() < -b.getW() && c.getY() < -c.getW()) ||
+                (a.getZ() > a.getW() && b.getZ() > b.getW() && c.getZ() > c.getW()) ||
+                (a.getZ() < 0 && b.getZ() < 0 && c.getZ() < 0);
+    }
 }
 

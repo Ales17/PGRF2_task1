@@ -78,6 +78,14 @@ public class Vertex implements Vectorizable<Vertex> {
         return vertex.getPosition().getY();
     }
 
+    public double getX() {
+        return this.getPosition().getX();
+    }
+    public double getY() {
+        return this.getPosition().getY();
+    }public double getZ() {
+        return this.getPosition().getZ();
+    }
     public Vertex mul(Mat4 transMat) {
         return new Vertex(position.mul(transMat), color, textureCoordinates, normalVector, one);
     }
@@ -122,4 +130,7 @@ public class Vertex implements Vectorizable<Vertex> {
     }
 
 
+    public double getW() {
+        return this.getPosition().getW();
+    }
 }

@@ -14,6 +14,8 @@ import java.util.*;
 import java.util.List;
 
 public class Controller3D implements Controller {
+    // Settings - default values
+    final Camera defaultCamera = new Camera().withFirstPerson(true).withPosition(new Vec3D(0.66, -1.70, 5.40)).withAzimuth(-5.00).withZenith(-1.00).withRadius(1.00);
     private final Panel panel;
     JCheckBox checkBoxWireframe = new JCheckBox("Wireframe");
     JCheckBox checkBoxOrthogonal = new JCheckBox("Orthogonal");
@@ -21,14 +23,8 @@ public class Controller3D implements Controller {
     JRadioButton radioX = new JRadioButton("X");
     JRadioButton radioY = new JRadioButton("Y");
     JRadioButton radioZ = new JRadioButton("Z");
-
-
     Renderer renderer;
-    // Settings - default values
-    final Camera defaultCamera = new Camera().withFirstPerson(true).withPosition(new Vec3D(0.66, -1.70, 5.40)).withAzimuth(-5.00).withZenith(-1.00).withRadius(1.00);
-    private Camera camera = defaultCamera;
     double CAM_SPEED = 0.1;
-
     RotationAxis rotationAxis = RotationAxis.X;
     int selectedObjectIndex = 0;
     boolean isSceneRotated = true;
@@ -43,7 +39,8 @@ public class Controller3D implements Controller {
     Pyramid pyramid = new Pyramid();
     Spiral spiral = new Spiral();
     Point2D prevPoint;
-    private List<Solid> solidList = new ArrayList<>();
+    private Camera camera = defaultCamera;
+    private List<Solid> rotateList = new ArrayList<>();
     private int width, height;
     private ZBuffer ZBuffer;
     private Scene scene;
@@ -59,7 +56,7 @@ public class Controller3D implements Controller {
     }
 
     private void toggleObject() {
-        selectedObjectIndex = (selectedObjectIndex >= solidList.size() - 1) ? 0 : selectedObjectIndex + 1;
+        selectedObjectIndex = (selectedObjectIndex >= rotateList.size() - 1) ? 0 : selectedObjectIndex + 1;
     }
 
     private void prepareRotation(boolean negativeDirection, int selectedObjectIndex) {
@@ -70,9 +67,8 @@ public class Controller3D implements Controller {
             case Y -> axis = RotationAxis.Y;
             case Z -> axis = RotationAxis.Z;
         }
-        rotate(axis, CAM_SPEED * dir, isSceneRotated ? null : solidList.get(selectedObjectIndex));
+        rotate(axis, CAM_SPEED * dir, isSceneRotated ? null : rotateList.get(selectedObjectIndex));
     }
-
 
 
     public void rotate(RotationAxis rotationAxis, double angle, Solid rotatedSolid) {
@@ -164,9 +160,8 @@ public class Controller3D implements Controller {
         radioZ.addActionListener(e -> handleAction(isWireframeMode, RotationAxis.Z));
 
 
-
-
     }
+
     private void handleAction(boolean isWireframeMode, RotationAxis rotationAxis) {
         this.isWireframeMode = isWireframeMode;
         this.rotationAxis = rotationAxis;
@@ -174,6 +169,7 @@ public class Controller3D implements Controller {
         panel.clear();
         redraw();
     }
+
     private void redraw() {
         controlPanel.add(checkBoxOrthogonal);
         controlPanel.add(checkBoxWireframe);
@@ -202,12 +198,12 @@ public class Controller3D implements Controller {
         scene.addSolid(cube);
         scene.addSolid(pyramid);
         scene.addSolid(spiral);
-        solidList.add(cube);
-        solidList.add(pyramid);
-        solidList.add(spiral);
+        rotateList.add(cube);
+        rotateList.add(pyramid);
+        rotateList.add(spiral);
         renderer.render(scene);
         panel.repaint();
-     }
+    }
 
 
     public void resetScene() {
@@ -227,11 +223,6 @@ public class Controller3D implements Controller {
         panel.clear();
         redraw();
     }
-public Renderer getRenderer() {
-        return this.renderer;
-    }
-
-
 
 
 }
