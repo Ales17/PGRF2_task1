@@ -5,55 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6decd0e-5519-4a6a-b57b-9422abb34d9d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/c04_bacul_ales.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/c04_bacul_ales.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/app/AppStart.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/control/Controller.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/control/Controller3D$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/control/Controller3D.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/raster/DepthBuffer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/raster/ImageBuffer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/raster/Raster.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/raster/TriangleRasterizer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/raster/ZBuffer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Bikubika.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Camera.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Col.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Kubika.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat3Identity.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat3Rot2D.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat3RotX.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat3RotY.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat3RotZ.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat3Scale2D.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat3Transl2D.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat4Identity.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat4OrthoRH.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat4PerspRH.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat4RotX.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat4RotXYZ.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat4RotY.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat4RotZ.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat4Scale.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat4Transl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Mat4ViewRH.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Point2D.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Point3D.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Quat.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Vec1D.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Vec2D.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/transforms/Vec3D.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/view/Panel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pgrf2-2023-cv04-main/view/Window.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/control/Controller3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/Controller3D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Cube.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Cube.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Vectorizable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Vectorizable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raster/ImageBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/ImageBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raster/TriangleRasterizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/raster/TriangleRasterizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solid/Solid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solid/Solid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Panel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Window.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -149,7 +103,8 @@
       <workItem from="1678607137091" duration="15590000" />
       <workItem from="1678645664218" duration="3948000" />
       <workItem from="1678691827551" duration="6725000" />
-      <workItem from="1678726417626" duration="13943000" />
+      <workItem from="1678726417626" duration="14039000" />
+      <workItem from="1678775543677" duration="5807000" />
     </task>
     <servers />
   </component>

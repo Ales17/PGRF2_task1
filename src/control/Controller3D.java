@@ -3,15 +3,26 @@ package control;
 import model.*;
 import raster.*;
 import render.*;
+import render.Renderer;
 import solid.*;
 import transforms.*;
 import view.Panel;
 
+import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
 
 public class Controller3D implements Controller {
     private final Panel panel;
+    JCheckBox checkBoxWireframe = new JCheckBox("Wireframe");
+    JCheckBox checkBoxOrthogonal = new JCheckBox("Orthogonal");
+    JPanel controlPanel = new JPanel();
+    JRadioButton radioX = new JRadioButton("X");
+    JRadioButton radioY = new JRadioButton("Y");
+    JRadioButton radioZ = new JRadioButton("Z");
+
+
     Renderer renderer;
     // Settings - default values
     final Camera defaultCamera = new Camera().withFirstPerson(true).withPosition(new Vec3D(0.66, -1.70, 5.40)).withAzimuth(-5.00).withZenith(-1.00).withRadius(1.00);
@@ -42,6 +53,7 @@ public class Controller3D implements Controller {
         this.panel = panel;
         // TODO Changing shader with setter - triangleRasterizer.setShader(new ShaderInterpolatedColor());
         initObjects(panel.getRaster());
+        radioX.setSelected(true);
         initListeners(panel);
         redraw();
     }
@@ -116,10 +128,7 @@ public class Controller3D implements Controller {
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     // Todo use gui for some of these
-                    //XYZ
-                    case KeyEvent.VK_X -> rotationAxis = RotationAxis.X;
-                    case KeyEvent.VK_Y -> rotationAxis = RotationAxis.Y;
-                    case KeyEvent.VK_Z -> rotationAxis = RotationAxis.Z;
+
                     // Cam movement WSAD
                     case KeyEvent.VK_W -> camera = camera.forward(CAM_SPEED);
                     case KeyEvent.VK_S -> camera = camera.backward(CAM_SPEED);
@@ -130,12 +139,11 @@ public class Controller3D implements Controller {
                     case KeyEvent.VK_DOWN -> camera = camera.down(CAM_SPEED);
                     //
                     case KeyEvent.VK_C -> resetScene();
-                    case KeyEvent.VK_LEFT -> prepareRotation(true, selectedObjectIndex);
-                    case KeyEvent.VK_RIGHT -> prepareRotation(false, selectedObjectIndex);
-                    case KeyEvent.VK_F -> isWireframeMode = !isWireframeMode;
+                    case KeyEvent.VK_NUMPAD2 -> prepareRotation(true, selectedObjectIndex);
+                    case KeyEvent.VK_NUMPAD8 -> prepareRotation(false, selectedObjectIndex);
                     case KeyEvent.VK_G -> isSceneRotated = !isSceneRotated;
                     case KeyEvent.VK_H -> toggleObject();
-                    case KeyEvent.VK_J -> {
+                    case KeyEvent.VK_O -> {
                         if (orthogonalProjection) {
                             projection = new Mat4OrthoRH(3, 2, 0.1, 10);
                             orthogonalProjection = false;
@@ -149,9 +157,37 @@ public class Controller3D implements Controller {
                 redraw();
             }
         });
-    }
 
+        checkBoxWireframe.addActionListener(e -> handleAction(!isWireframeMode, rotationAxis));
+        radioX.addActionListener(e -> handleAction(isWireframeMode, RotationAxis.X));
+        radioY.addActionListener(e -> handleAction(isWireframeMode, RotationAxis.Y));
+        radioZ.addActionListener(e -> handleAction(isWireframeMode, RotationAxis.Z));
+
+
+
+
+    }
+    private void handleAction(boolean isWireframeMode, RotationAxis rotationAxis) {
+        this.isWireframeMode = isWireframeMode;
+        this.rotationAxis = rotationAxis;
+        panel.requestFocus();
+        panel.clear();
+        redraw();
+    }
     private void redraw() {
+        controlPanel.add(checkBoxOrthogonal);
+        controlPanel.add(checkBoxWireframe);
+
+        panel.add(controlPanel);
+
+        ButtonGroup radioGroup = new ButtonGroup();
+        radioGroup.add(radioX);
+        radioGroup.add(radioY);
+        radioGroup.add(radioZ);
+        controlPanel.add(new JLabel("Rotation Axis: "));
+        controlPanel.add(radioX);
+        controlPanel.add(radioY);
+        controlPanel.add(radioZ);
         width = panel.getRaster().getWidth();
         height = panel.getRaster().getHeight();
         triangleRasterizer.getzBuffer().getDepthBuffer().clear();
@@ -171,8 +207,7 @@ public class Controller3D implements Controller {
         solidList.add(spiral);
         renderer.render(scene);
         panel.repaint();
-        System.out.println(scene.getSolids());
-    }
+     }
 
 
     public void resetScene() {
@@ -192,4 +227,11 @@ public class Controller3D implements Controller {
         panel.clear();
         redraw();
     }
+public Renderer getRenderer() {
+        return this.renderer;
+    }
+
+
+
+
 }

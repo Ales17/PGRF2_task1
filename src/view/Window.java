@@ -1,29 +1,40 @@
 package view;
 
 import control.Controller3D;
-import render.Renderer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Window extends JFrame {
 
     private final Panel panel;
-    private final JLabel label;
+
+
 
 
     public Window() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("UHK FIM PGRF");
 
-        panel = new Panel();
-        label = new JLabel("Keyboard controls in README");
+       panel = new Panel();
+//        Controller3D controller3D = new Controller3D(panel);
+//        JCheckBox checkBox = new JCheckBox("Wireframe mode");
+//       JPanel controlPanel = new JPanel();
+//       controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
+//         controlPanel.add(checkBox);
+//
+//        add(controlPanel, BorderLayout.NORTH);
+        add(panel, BorderLayout.CENTER);
 
+//       checkBox.addActionListener(e -> {
+//           boolean isWireframe = checkBox.isSelected();
+//           System.out.println("Wireframe mode: " + isWireframe);
+//           controller3D.getRenderer().setWireframe(isWireframe);
+//
+//       });
 
-
-        add(panel, "Center");
-
-        add(label, "North");
 
         setVisible(true);
         pack();
